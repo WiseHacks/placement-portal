@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import "./styles/AuthForms.css"
 const RoleSelection = () => {
   const [email, setEmail] = useState("");
@@ -30,6 +31,11 @@ const RoleSelection = () => {
       console.log("Email:", email);
       console.log("Password:", password);
       console.log("Role:", role);
+    }
+    else{
+      toast.error("Form data is invalid");
+      valid = true;
+      return;
     }
   };
 
