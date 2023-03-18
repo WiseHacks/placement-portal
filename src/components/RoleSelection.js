@@ -33,6 +33,13 @@ const RoleSelection = () => {
             </Link>
           </div>
         </div>
+        <div className="row mt-3">
+          <div className="col d-flex justify-content-center">
+            <Link to="/register" className="btn btn-lg px-5 py-3 rounded-pill" style={{width:"75%"}}>
+              Register into system
+            </Link>
+          </div>
+        </div>
         </div>
       </div>
     </div>
