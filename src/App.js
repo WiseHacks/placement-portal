@@ -1,25 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import RoleSelection from "./components/RoleSelection";
+import AdminPage from "./components/AdminPage";
+import UserPage from "./components/UserPage";
+import ModeratorPage from "./components/ModeratorPage";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+    <Router>
+      <Routes>
+        <Route exact path="/" element={<RoleSelection />} />
+        <Route path="/admin" element={<AdminPage />} />
+        <Route path="/user" element={<UserPage />} />
+        <Route path="/moderator" element={<ModeratorPage />} />
+      </Routes>
+    </Router>
     </div>
   );
-}
+};
 
 export default App;
