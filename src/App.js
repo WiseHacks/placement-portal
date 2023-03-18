@@ -5,11 +5,14 @@ import AdminPage from "./components/AdminPage";
 import UserPage from "./components/UserPage";
 import ModeratorPage from "./components/ModeratorPage";
 import Registration from "./components/Registration";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
 
 const App = () => {
   return (
     <div>
     <Router>
+    <ToastContainer position='bottom-center'/>
       <Routes>
         <Route exact path="/" element={<RoleSelection />} />
         <Route path="/admin" element={<AdminPage />} />
