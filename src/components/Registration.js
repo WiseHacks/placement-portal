@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { signUp } from "../services/user-service";
 import { toast } from "react-toastify";
-import "./styles/RoleSelection.css"
+import "./styles/AuthForms.css"
 import {
   Container,
   Card,
@@ -99,13 +99,13 @@ const Signup = () => {
               style={{ width: "400px" }}
             />
           </div>
-          <Form>
+          <Form className="form-container">
                     {/*email field */}
                     <FormGroup>
                       <Label for="email">Email</Label>
                       <Input style= {{ paddingLeft: "20px"}}
                         type="email"
-                        placeholder="Enter here"
+                        placeholder="Enter email"
                         id="email"
                         onChange={(e) => handleChange(e, "email")}
                         value={data.email}
@@ -124,7 +124,7 @@ const Signup = () => {
                       <Input
                         style= {{ paddingLeft: "20px"}} 
                         type="password"
-                        placeholder="Enter here"
+                        placeholder="Password"
                         id="password"
                         onChange={(e) => handleChange(e, "password")}
                         invalid={
@@ -149,14 +149,15 @@ const Signup = () => {
                         onChange={(e) => handleChange(e, "role")}
                         value={data.role}
                       >
-                        <option>ADMIN</option>
-                        <option>MODERATOR</option>
-                        <option>STUDENT</option>
+                        <option value="">--Select role--</option>
+                        <option>Admin</option>
+                        <option>Moderator</option>
+                        <option>Student</option>
                       </Input>
                     </FormGroup>
 
                     <Container className="text-center">
-                      <Button onClick={handleSubmit} >
+                      <Button onClick={handleSubmit} className="btn btn-lg">
                         Register
                       </Button>
                     </Container>

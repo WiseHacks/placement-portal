@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import RoleSelection from "./components/RoleSelection";
 import AdminPage from "./components/AdminPage";
-import UserPage from "./components/UserPage";
+import StudentPage from "./components/StudentPage";
 import ModeratorPage from "./components/ModeratorPage";
 import Registration from "./components/Registration";
 import { ToastContainer } from 'react-toastify';
@@ -16,7 +16,7 @@ const App = () => {
       <Routes>
         <Route exact path="/" element={<RoleSelection />} />
         <Route path="/admin" element={<AdminPage />} />
-        <Route path="/user" element={<UserPage />} />
+        <Route path="/student" element={<StudentPage />} />
         <Route path="/moderator" element={<ModeratorPage />} />
         <Route path="/register" element={<Registration/>}/>
       </Routes>

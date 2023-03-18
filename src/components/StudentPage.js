@@ -1,12 +1,12 @@
 import React from "react";
 
-const UserPage = () => {
+const StudentPage = () => {
   return (
     <div>
-      <h1>Welcome, User!</h1>
+      <h1>Welcome, Student!</h1>
       <p>You have access to all areas of the app.</p>
     </div>
   );
 };
 
-export default UserPage;
+export default StudentPage;
