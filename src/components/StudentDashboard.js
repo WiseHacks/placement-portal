@@ -1,11 +1,17 @@
 import { Alert } from 'bootstrap';
-import React, { useState } from 'react';
+import React, { useEffect,useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Navbar, Nav, NavItem, NavLink, Container } from 'reactstrap';
 import './styles/Dashboard.css';
+import { doLogout, getCurrentUserDetail, isLoggedIn } from '../auth/index';
+import { toast } from 'react-toastify';
 
 const StudentDashboard = () => {
     const [active, setActive] = useState('profile');
     const [showNavbar, setShowNavbar] = useState(true);
+    const [login,setLogin] = useState(false);
+    const [user,setUser] = useState(undefined);
+    const navigate = useNavigate();
 
     const handleNavItemClick = (item) => {
         setActive(item);
@@ -13,6 +19,19 @@ const StudentDashboard = () => {
 
     const toggleNavbar = () => {
         setShowNavbar(!showNavbar);
+    }
+
+    useEffect(()=>{
+        setLogin(isLoggedIn());
+        setUser(getCurrentUserDetail());
+    },[login])
+
+    const signOut=()=>{
+        doLogout(()=>{
+            setLogin(false);
+            toast.success("Logged out !!");
+            navigate("/")
+        });
     }
 
     return (
@@ -81,7 +100,7 @@ const StudentDashboard = () => {
                                 </NavLink>
                             </NavItem>
                             <NavItem className="sidenav-item mt-auto">
-                                <NavLink href="#" onClick={() => alert('Confirm Sign-out?')}>
+                                <NavLink href="#" onClick={signOut }>
                                     <i className="fas fa-sign-out-alt fa-lg mr-3"></i>
                                     Sign out
                                 </NavLink>
@@ -95,9 +114,10 @@ const StudentDashboard = () => {
                 {active === 'profile' && (
                     <div>
                         <h1>Profile</h1>
-                        <p>Name: John Doe</p>
-                        <p>Email: john.doe@example.com</p>
-                        <p>Phone Number: +1 555-1234</p>
+                        <p>Name : {user?.email.split('@')[0].toUpperCase()}</p>
+                        <p>Email : {user?.email}</p>
+                        <p>Phone : +91 8457459455</p>
+                        <p>Role : {user?.role[0]?.roleName}</p>
                     </div>
                 )}
                 {active === 'jobopenings' && (

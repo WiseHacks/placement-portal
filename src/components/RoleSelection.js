@@ -1,58 +1,112 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import "./styles/AuthForms.css"
-const RoleSelection = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [role, setRole] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [roleError, setRoleError] = useState("");
+import "./styles/AuthForms.css";
+import { logIn } from "../services/user-service";
+import { doLogin,isLoggedIn } from "../auth/index";
+import { useNavigate } from "react-router-dom";
+import { getCurrentUserDetail } from "../auth/index";
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // validate form inputs
-    let valid = true;
-    if (!email) {
-      setEmailError("Please enter your email.");
-      valid = false;
+import {
+  Container,
+  Card,
+  CardHeader,
+  CardBody,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  Button,
+  Row,
+  Col,
+  FormFeedback,
+} from "reactstrap";
+
+const RoleSelection = () => {
+  const [loginDetail, setloginDetail] = useState({
+    email: "",
+    password: "",
+    role: "",
+  });
+
+  const navigate = useNavigate();
+  const [login,setLogin] = useState(false);
+  const [user,setUser] = useState(undefined);
+
+  const [error, setError] = useState({
+    errors: {},
+    isError: false,
+  });
+
+  useEffect(() => {
+    console.log(loginDetail);
+  }, [loginDetail]);
+
+  useEffect(()=>{
+    setLogin(isLoggedIn());
+    setUser(getCurrentUserDetail());
+},[login])
+
+  //handle change event
+  const handleChange = (event, property) => {
+    setloginDetail({ ...loginDetail, [property]: event.target.value });
+  };
+
+  const resetloginDetail = () => {
+    setloginDetail({
+      email: "",
+      password: "",
+      role: "",
+    });
+  };
+
+  if(isLoggedIn()){
+    toast.success("Already logged in !!");
+    if(user?.role[0]?.roleName === "STUDENT"){
+      console.log("here");
+      navigate("/student/dashboard");
     }
-    if (!password) {
-      setPasswordError("Please enter your password.");
-      valid = false;
-    }
-    if (!role) {
-      setRoleError("Please select your role.");
-      valid = false;
-    }
-    if (valid) {
-      console.log("Email:", email);
-      console.log("Password:", password);
-      console.log("Role:", role);
-    }
-    else{
-      toast.error("Form data is invalid");
-      valid = true;
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log(loginDetail);
+
+    //validate
+    if (loginDetail.email.trim() == "") {
+      toast.error("Valid email is required !!");
       return;
     }
+    if (loginDetail.password.trim() == "") {
+      toast.error("Valid password is required !!");
+      return;
+    }
+
+    //send to server
+    logIn(loginDetail)
+      .then((data) => {
+        //save data to local storage
+        doLogin(data,()=>{
+          console.log("Login detail is stored to local storage");
+          //redirect to user dashboard
+          if(data.user?.role[0]?.roleName === "STUDENT"){
+            navigate("/student/dashboard");
+          }
+        })
+
+        toast.success("Logged in successfully !!");
+      })
+      .catch((error) => {
+        console.log(error);
+        if (error.response.status == 400 || error.response.status == 404) {
+          toast.error(error?.response?.data?.password);
+        } else {
+          toast.error("Invalid Credentials !!");
+        }
+      });
   };
 
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-    setEmailError("");
-  };
-
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-    setPasswordError("");
-  };
-
-  const handleRoleChange = (e) => {
-    setRole(e.target.value);
-    setRoleError("");
-  };
   return (
     <div className="position-relative container-fluid d-flex justify-content-center align-items-center bg-image bg-opacity">
       {/* White card */}
@@ -72,41 +126,60 @@ const RoleSelection = () => {
               src={require("./logo/logo_new.png")}
               alt="Logo"
               className="mr-2"
-              style={{ width: "400px", marginTop:"1rem"}}
+              style={{ width: "400px", marginTop: "1rem" }}
             />
           </div>
           {/* <h3 className="text-center mb-3 discord-text">Sign In</h3> */}
           <form onSubmit={handleSubmit}>
             <div className="form-container">
-              <div className="form-group" style={{marginBottom:"1rem"}}>
-                <label htmlFor="email" style={{marginBottom:"0.5rem"}}>Email address</label>
+              <div className="form-group" style={{ marginBottom: "1rem" }}>
+                <label htmlFor="email" style={{ marginBottom: "0.5rem" }}>
+                  Email address
+                </label>
                 <input
                   type="email"
                   className="form-control"
                   id="email"
                   placeholder="Enter email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => handleChange(e, "email")}
+                  value={loginDetail.email}
+                  invalid={
+                    error.errors?.response?.loginDetail?.email ? true : false
+                  }
                 />
+
+                <FormFeedback>
+                  {error.errors?.response?.loginDetail?.email}
+                </FormFeedback>
               </div>
-              <div className="form-group" style={{marginBottom:"1rem"}}>
-                <label htmlFor="password" style={{marginBottom:"0.5rem"}}>Password</label>
+              <div className="form-group" style={{ marginBottom: "1rem" }}>
+                <label htmlFor="password" style={{ marginBottom: "0.5rem" }}>
+                  Password
+                </label>
                 <input
                   type="password"
                   className="form-control"
                   id="password"
                   placeholder="Password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => handleChange(e, "password")}
+                  invalid={
+                    error.errors?.response?.loginDetail?.password ? true : false
+                  }
+                  value={loginDetail.password}
                 />
+                <FormFeedback>
+                  {error.errors?.response?.loginDetail?.password}
+                </FormFeedback>
               </div>
-              <div className="form-group" style={{marginBottom:"1rem"}}>
-                <label htmlFor="role" style={{marginBottom:"0.5rem"}}>Select your role:</label>
+              <div className="form-group" style={{ marginBottom: "1rem" }}>
+                <label htmlFor="role" style={{ marginBottom: "0.5rem" }}>
+                  Select your role:
+                </label>
                 <select
                   className="form-control"
                   id="role"
-                  value={role}
-                  onChange={(e) => setRole(e.target.value)}
+                  onChange={(e) => handleChange(e, "role")}
+                  value={loginDetail.role}
                 >
                   <option value="">--Select role--</option>
                   <option value="admin">Admin</option>
@@ -121,9 +194,13 @@ const RoleSelection = () => {
               </div>
             </div>
           </form>
-          <div className="row mt-3" >
+          <div className="row mt-3">
             <div className="col d-flex justify-content-center">
-              <Link to="/register" className="btn btn-lg " style={{marginBottom:"1rem"}}>
+              <Link
+                to="/register"
+                className="btn btn-lg "
+                style={{ marginBottom: "1rem" }}
+              >
                 New user? Register here
               </Link>
             </div>

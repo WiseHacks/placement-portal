@@ -151,7 +151,7 @@ const Signup = () => {
                       >
                         <option value="">--Select role--</option>
                         <option>Admin</option>
-                        <option>Moderator</option>
+                        {/* <option>Moderator</option> */}
                         <option>Student</option>
                       </Input>
                     </FormGroup>
