@@ -5,6 +5,7 @@ import { Navbar, Nav, NavItem, NavLink, Container } from 'reactstrap';
 import './styles/Dashboard.css';
 import { doLogout, getCurrentUserDetail, isLoggedIn } from '../auth/index';
 import { toast } from 'react-toastify';
+import {ResumeCard} from './Resume'
 
 const StudentDashboard = () => {
     const [active, setActive] = useState('profile');
@@ -133,10 +134,11 @@ const StudentDashboard = () => {
                     </div>
                 )}
                 {active === 'myresume' && (
-                    <div>
-                        <h1>My resume</h1>
-                        <p>You have no resume saved.</p>
-                    </div>
+                    <ResumeCard/>
+                    // <div>
+                    //     <h1>My resume</h1>
+                    //     <p>You have no resume saved.</p>
+                    // </div>
                 )}
                 {active === 'placementstatus' && (
                     <div>

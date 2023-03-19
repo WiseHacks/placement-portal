@@ -1,3 +1,4 @@
+import { getCurrentUserDetail } from "../auth";
 import { myAxios } from "./helper";
 
 export const signUp=(user)=>{
@@ -19,5 +20,13 @@ export const logIn=(user)=>{
         password:user.password
     }
     return myAxios.post('/authenticate',JwtRequest).then((response)=> response.data);
+}
+
+export const getSingleUser=()=>{
+    return myAxios.get('/user/'+getCurrentUserDetail().email).then((response)=> response.data);
+}
+
+export const getUserByEmail=(email)=>{
+    return myAxios.get('/user/'+email).then((response)=> response.data);
 }
 

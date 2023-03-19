@@ -26,3 +26,10 @@ export const getCurrentUserDetail=()=>{
     }
     else return undefined;
 }
+
+export const getToken=()=>{
+    if(isLoggedIn()){
+        return JSON.parse(localStorage.getItem("data"))?.jwtToken;
+    }
+    else return null;
+}

@@ -4,9 +4,10 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import "./styles/AuthForms.css";
 import { logIn } from "../services/user-service";
-import { doLogin,isLoggedIn } from "../auth/index";
+import { doLogin, isLoggedIn } from "../auth/index";
 import { useNavigate } from "react-router-dom";
 import { getCurrentUserDetail } from "../auth/index";
+import { getUserByEmail } from "../services/user-service";
 
 import {
   Container,
@@ -31,8 +32,8 @@ const RoleSelection = () => {
   });
 
   const navigate = useNavigate();
-  const [login,setLogin] = useState(false);
-  const [user,setUser] = useState(undefined);
+  const [login, setLogin] = useState(false);
+  const [user, setUser] = useState(undefined);
 
   const [error, setError] = useState({
     errors: {},
@@ -43,10 +44,10 @@ const RoleSelection = () => {
     console.log(loginDetail);
   }, [loginDetail]);
 
-  useEffect(()=>{
+  useEffect(() => {
     setLogin(isLoggedIn());
     setUser(getCurrentUserDetail());
-},[login])
+  }, [login]);
 
   //handle change event
   const handleChange = (event, property) => {
@@ -61,9 +62,9 @@ const RoleSelection = () => {
     });
   };
 
-  if(isLoggedIn()){
+  if (isLoggedIn()) {
     toast.success("Already logged in !!");
-    if(user?.role[0]?.roleName === "STUDENT"){
+    if (user?.role[0]?.roleName === "STUDENT") {
       console.log("here");
       navigate("/student/dashboard");
     }
@@ -83,27 +84,42 @@ const RoleSelection = () => {
       return;
     }
 
-    //send to server
-    logIn(loginDetail)
-      .then((data) => {
-        //save data to local storage
-        doLogin(data,()=>{
-          console.log("Login detail is stored to local storage");
-          //redirect to user dashboard
-          if(data.user?.role[0]?.roleName === "STUDENT"){
-            navigate("/student/dashboard");
-          }
-        })
+    getUserByEmail(loginDetail.email)
+      .then((UserDto) => {
+        if (UserDto?.role[0]?.roleName === loginDetail.role.toUpperCase()) {
+          //send to server
+          logIn(loginDetail)
+            .then((data) => {
+              //save data to local storage
+              doLogin(data, () => {
+                console.log("Login detail is stored to local storage");
+                //redirect to user dashboard
+                if (data.user?.role[0]?.roleName === "STUDENT") {
+                  navigate("/student/dashboard");
+                }
+              });
 
-        toast.success("Logged in successfully !!");
+              toast.success("Logged in successfully !!");
+            })
+            .catch((error) => {
+              console.log(error);
+              if (
+                error.response.status == 400 ||
+                error.response.status == 404
+              ) {
+                toast.error(error?.response?.data?.password);
+              } else {
+                toast.error("Invalid Credentials !!");
+              }
+            });
+        }
+        else{
+          toast.error("Role not allowed !!");
+        }
       })
       .catch((error) => {
+        toast.error("Invalid credentials !!")
         console.log(error);
-        if (error.response.status == 400 || error.response.status == 404) {
-          toast.error(error?.response?.data?.password);
-        } else {
-          toast.error("Invalid Credentials !!");
-        }
       });
   };
 
