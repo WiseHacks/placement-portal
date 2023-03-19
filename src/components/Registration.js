@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import { signUp } from "../services/user-service";
 import { toast } from "react-toastify";
 import "./styles/AuthForms.css"
+import { getAllInviteKeys } from "../services/user-service";
+import { useNavigate } from "react-router-dom";
 import {
   Container,
   Card,
@@ -23,7 +25,10 @@ const Signup = () => {
     email: "",
     password: "",
     role: "",
+    inviteKey: ""
   });
+
+  const navigate = useNavigate();
 
   const [error, setError] = useState({
     errors: {},
@@ -44,6 +49,7 @@ const Signup = () => {
       email: "",
       password: "",
       role: "",
+      inviteKey:""
     });
   };
 
@@ -56,25 +62,43 @@ const Signup = () => {
       return;
     }
 
-    //data validate
-    console.log("in handle submit");
-
-    //call server api for sending data
+    getAllInviteKeys().then((allKeys)=>{
+      let isKeyValid = false;
+      console.log(allKeys);
+      for(let key in allKeys){
+        console.log(allKeys[key],data.inviteKey);
+        if(allKeys[key]?.inviteKey == data.inviteKey){
+          isKeyValid = true;
+          break;
+        }
+      }
+      if(isKeyValid){
+          //call server api for sending data
     signUp(data)
-      .then((resp) => {
-        console.log(resp);
-        console.log("success log");
-        toast.success("User is registered successfully!!");
-        resetData();
-      })
-      .catch((error) => {
-        console.log(error);
+    .then((resp) => {
+      console.log(resp);
+      console.log("success log");
+      toast.success("User is registered successfully!!");
+      resetData();
+      navigate("/");
+    })
+    .catch((error) => {
+      console.log(error);
 
-        setError({
-          errors: error,
-          isError: true,
-        });
+      setError({
+        errors: error,
+        isError: true,
       });
+    });
+      }
+      else{
+        toast.error("Invalid invite key !!")
+      }
+    }).catch((error)=>{
+      console.log(error);
+    })
+
+    
   };
 
   return (
@@ -155,6 +179,18 @@ const Signup = () => {
                         <option>Student</option>
                       </Input>
                     </FormGroup>
+
+                    <FormGroup>
+                      <Label for="inviteKey">Invite Key</Label>
+                      <Input
+                        style= {{ paddingLeft: "20px"}} 
+                        type="text"
+                        placeholder="Invite Key"
+                        id="inviteKey"
+                        onChange={(e) => handleChange(e, "inviteKey")}
+                        value={data.inviteKey}
+                      ></Input>
+                      </FormGroup>
 
                     <Container className="text-center">
                       <Button onClick={handleSubmit} className="btn btn-lg">

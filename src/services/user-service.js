@@ -9,7 +9,10 @@ export const signUp=(user)=>{
             {
                 roleName:user.role.toUpperCase()
             }
-        ]
+        ],
+        registerKey:{
+            inviteKey:user.inviteKey
+        }
     }
     return myAxios.post('/user/',UserDto).then((response)=> response.data);
 }
@@ -28,5 +31,9 @@ export const getSingleUser=()=>{
 
 export const getUserByEmail=(email)=>{
     return myAxios.get('/user/'+email).then((response)=> response.data);
+}
+
+export const getAllInviteKeys=()=>{
+    return myAxios.get('/key/all').then((response)=> response.data);
 }
 
