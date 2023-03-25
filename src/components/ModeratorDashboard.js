@@ -7,6 +7,8 @@ import { doLogout, getCurrentUserDetail, isLoggedIn } from '../auth/index';
 import { toast } from 'react-toastify';
 import {ResumeCard} from './Resume'
 import {CompanyList} from './Company'
+import {  JobOpeningForm } from './JobOpeningModeratorAdd';
+import { JobOpeningsList } from './JobOpeningModeratorView';
 
 const ModeratorDashboard = () => {
     const [active, setActive] = useState('profile');
@@ -77,18 +79,18 @@ const ModeratorDashboard = () => {
                                     className={active === 'jobopenings' ? 'active' : ''}
                                 >
                                     <i className="far fa-user-circle fa-lg mr-3"></i>
-                                    Job openings
+                                    Post Job opening
                                 </NavLink>
                             </NavItem>
 
                             <NavItem className="sidenav-item">
                                 <NavLink
                                     href="#"
-                                    onClick={() => handleNavItemClick('applications')}
-                                    className={active === 'applications' ? 'active' : ''}
+                                    onClick={() => handleNavItemClick('viewjobopenings')}
+                                    className={active === 'viewjobopenings' ? 'active' : ''}
                                 >
                                     <i className="far fa-file-alt fa-lg mr-3"></i>
-                                    Job Applications
+                                    View Job Openings
                                 </NavLink>
                             </NavItem>
                             {/* <NavItem className="sidenav-item">
@@ -136,16 +138,10 @@ const ModeratorDashboard = () => {
                     <CompanyList/>
                 )}
                 {active === 'jobopenings' && (
-                    <div>
-                        <h1>Job Posts</h1>
-                        <p>There is no job post yet.</p>
-                    </div>
+                    <JobOpeningForm/>
                 )}
-                {active === 'applications' && (
-                    <div>
-                        <h1>Applications</h1>
-                        <p>You have no applications.</p>
-                    </div>
+                {active === 'viewjobopenings' && (
+                    <JobOpeningsList/>
                 )}
                 {/* {active === 'myresume' && (
                     <ResumeCard/>
