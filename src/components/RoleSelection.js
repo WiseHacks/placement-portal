@@ -68,6 +68,9 @@ const RoleSelection = () => {
       console.log("here");
       navigate("/student/dashboard");
     }
+    else if(user?.role[0]?.roleName === "MODERATOR"){
+      navigate("/moderator/dashboard");
+    }
   }
 
   const handleSubmit = (event) => {
@@ -96,6 +99,9 @@ const RoleSelection = () => {
                 //redirect to user dashboard
                 if (data.user?.role[0]?.roleName === "STUDENT") {
                   navigate("/student/dashboard");
+                }
+                else if(data.user?.role[0]?.roleName === "MODERATOR"){
+                  navigate("/moderator/dashboard");
                 }
               });
 
