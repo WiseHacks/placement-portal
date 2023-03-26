@@ -29,6 +29,7 @@ export const getSingleUser=()=>{
     return myAxios.get('/user/'+getCurrentUserDetail().email).then((response)=> response.data);
 }
 
+
 export const getUserByEmail=(email)=>{
     return myAxios.get('/user/'+email).then((response)=> response.data);
 }

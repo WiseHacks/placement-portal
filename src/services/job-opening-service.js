@@ -24,11 +24,19 @@ export const createJobOpening=(jobOpeningDto)=>{
     return privateAxios.post('/job-opening/',jobOpeningDto).then((response)=> response.data);
 }
 
+export const getSingleJobOpening=(jobId)=>{
+    return privateAxios.get('/job-opening/'+jobId).then((response)=> response.data);
+}
+
 export const getAllJobOpenings=()=>{
     return privateAxios.get("/job-opening/all").then((response)=>response.data);
 }
 
 export const deleteJobOpening=(jobId)=>{
     return privateAxios.delete("/job-opening/"+jobId).then((response)=>response.data);
+}
+
+export const editJobOpening=(jobOpeningDto)=>{
+    return privateAxios.put("/job-opening/"+jobOpeningDto.id,jobOpeningDto).then((response)=>response.data);
 }
 

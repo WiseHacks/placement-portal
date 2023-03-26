@@ -9,6 +9,7 @@ import {ResumeCard} from './Resume'
 import {CompanyList} from './Company'
 import {  JobOpeningForm } from './JobOpeningModeratorAdd';
 import { JobOpeningsList } from './JobOpeningModeratorView';
+import { JobOpeningEditor } from './JobOpeningModeratorEdit';
 
 const ModeratorDashboard = () => {
     const [active, setActive] = useState('profile');
@@ -93,6 +94,16 @@ const ModeratorDashboard = () => {
                                     View Job Openings
                                 </NavLink>
                             </NavItem>
+                            <NavItem className="sidenav-item">
+                                <NavLink
+                                    href="#"
+                                    onClick={() => handleNavItemClick('editjobopening')}
+                                    className={active === 'editjobopenings' ? 'active' : ''}
+                                >
+                                    <i className="far fa-file-alt fa-lg mr-3"></i>
+                                    Edit Job Opening
+                                </NavLink>
+                            </NavItem>
                             {/* <NavItem className="sidenav-item">
                                 <NavLink
                                     href="#"
@@ -142,6 +153,9 @@ const ModeratorDashboard = () => {
                 )}
                 {active === 'viewjobopenings' && (
                     <JobOpeningsList/>
+                )}
+                {active === 'editjobopening' && (
+                    <JobOpeningEditor/>
                 )}
                 {/* {active === 'myresume' && (
                     <ResumeCard/>
