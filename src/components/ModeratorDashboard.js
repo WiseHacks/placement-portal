@@ -10,6 +10,7 @@ import {CompanyList} from './Company'
 import {  JobOpeningForm } from './JobOpeningModeratorAdd';
 import { JobOpeningsList } from './JobOpeningModeratorView';
 import { JobOpeningEditor } from './JobOpeningModeratorEdit';
+import { JobApplications } from './JobApplicationModeratorView';
 
 const ModeratorDashboard = () => {
     const [active, setActive] = useState('profile');
@@ -104,16 +105,16 @@ const ModeratorDashboard = () => {
                                     Edit Job Opening
                                 </NavLink>
                             </NavItem>
-                            {/* <NavItem className="sidenav-item">
+                            <NavItem className="sidenav-item">
                                 <NavLink
                                     href="#"
-                                    onClick={() => handleNavItemClick('myresume')}
-                                    className={active === 'myresume' ? 'active' : ''}
+                                    onClick={() => handleNavItemClick('viewapplications')}
+                                    className={active === 'viewapplications' ? 'active' : ''}
                                 >
                                     <i className="far fa-user-circle fa-lg mr-3"></i>
-                                    My Resume
+                                    View Applications
                                 </NavLink>
-                            </NavItem> */}
+                            </NavItem>
                             {/* <NavItem className="sidenav-item">
                                 <NavLink
                                     href="#"
@@ -156,6 +157,9 @@ const ModeratorDashboard = () => {
                 )}
                 {active === 'editjobopening' && (
                     <JobOpeningEditor/>
+                )}
+                {active === 'viewapplications' && (
+                    <JobApplications/>
                 )}
                 {/* {active === 'myresume' && (
                     <ResumeCard/>

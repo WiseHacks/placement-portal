@@ -6,6 +6,8 @@ import './styles/Dashboard.css';
 import { doLogout, getCurrentUserDetail, isLoggedIn } from '../auth/index';
 import { toast } from 'react-toastify';
 import {ResumeCard} from './Resume'
+import {JobOpeningsTable} from './JobOpeningStudentView'
+import { MyApplications } from './MyApplicationsViewStudent';
 
 const StudentDashboard = () => {
     const [active, setActive] = useState('profile');
@@ -122,16 +124,18 @@ const StudentDashboard = () => {
                     </div>
                 )}
                 {active === 'jobopenings' && (
-                    <div>
-                        <h1>Job Posts</h1>
-                        <p>There is no job post yet.</p>
-                    </div>
+                    // <div>
+                    //     <h1>Job Posts</h1>
+                    //     <p>There is no job post yet.</p>
+                    // </div>
+                    <JobOpeningsTable/>
                 )}
                 {active === 'applications' && (
-                    <div>
-                        <h1>Applications</h1>
-                        <p>You have no applications.</p>
-                    </div>
+                    // <div>
+                    //     <h1>Applications</h1>
+                    //     <p>You have no applications.</p>
+                    // </div>
+                    <MyApplications/>
                 )}
                 {active === 'myresume' && (
                     <ResumeCard/>
