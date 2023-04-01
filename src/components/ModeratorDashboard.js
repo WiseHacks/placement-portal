@@ -11,6 +11,7 @@ import {  JobOpeningForm } from './JobOpeningModeratorAdd';
 import { JobOpeningsList } from './JobOpeningModeratorView';
 import { JobOpeningEditor } from './JobOpeningModeratorEdit';
 import { JobApplications } from './JobApplicationModeratorView';
+import { EmailSendForm } from './ModeratorSendEmail';
 
 const ModeratorDashboard = () => {
     const [active, setActive] = useState('profile');
@@ -115,6 +116,16 @@ const ModeratorDashboard = () => {
                                     View Applications
                                 </NavLink>
                             </NavItem>
+                            <NavItem className="sidenav-item">
+                                <NavLink
+                                    href="#"
+                                    onClick={() => handleNavItemClick('sendemail')}
+                                    className={active === 'sendemail' ? 'active' : ''}
+                                >
+                                    <i className="far fa-user-circle fa-lg mr-3"></i>
+                                    Send Email
+                                </NavLink>
+                            </NavItem>
                             {/* <NavItem className="sidenav-item">
                                 <NavLink
                                     href="#"
@@ -160,6 +171,9 @@ const ModeratorDashboard = () => {
                 )}
                 {active === 'viewapplications' && (
                     <JobApplications/>
+                )}
+                {active === 'sendemail' && (
+                <EmailSendForm/>
                 )}
                 {/* {active === 'myresume' && (
                     <ResumeCard/>

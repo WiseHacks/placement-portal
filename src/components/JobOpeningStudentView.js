@@ -61,6 +61,29 @@ export const JobOpeningsTable = () => {
     fetchMyApplications();
   }, []);
 
+  const fetchJobOpenings = async () => {
+    //   const response = await fetch("https://example.com/job-openings");
+    //   const jobOpenings = await response.json();
+    //   setJobOpenings(jobOpenings);
+    const allJobOpeningDto = await getAllJobOpenings();
+    console.log(allJobOpeningDto);
+    const njo = []
+    allJobOpeningDto.forEach((jobOpeningDto)=>{
+        njo.push({
+            jobId:jobOpeningDto?.id,
+            jobDescription:jobOpeningDto?.jobDescription,
+            postedBy:jobOpeningDto?.user?.email,
+            cgpaCutoff:jobOpeningDto?.cgpaCutoff,
+            companyName:jobOpeningDto?.company?.companyName,
+            jobProfile:jobOpeningDto?.jobProfile,
+            companyId:jobOpeningDto?.company?.id,
+            userPosted:jobOpeningDto?.user
+        })
+    })
+    console.log(njo)
+    setJobOpenings(njo);
+    };
+
   const toggleModal = (jobOpening) => {
     setSelectedJobOpening(jobOpening);
     setModal(!modal);

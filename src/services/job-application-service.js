@@ -36,5 +36,9 @@ export const updateJobApplication=(jobApplicationDto)=>{
     return privateAxios.put('/job-application/'+jobApplicationDto.id,jobApplicationDto).then((response)=> response.data)
 }
 
+export const deleteJobApplication=(jobApplicationId)=>{
+    return privateAxios.delete('/job-application/'+jobApplicationId).then((response)=> response.data);
+}
+
 
 
