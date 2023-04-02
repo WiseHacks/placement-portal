@@ -130,15 +130,18 @@ export const ResumeForm = (props) => {
               required
             />
             <Button
-              color="danger"
+              color="white"
               className="ml-2"
               onClick={() => handleRemoveSkill(index)}
+              style={{marginLeft: "10px"}}
             >
               Remove
             </Button>
           </div>
         ))}
-        <Button color="primary" onClick={handleAddSkill}>
+        <Button color="white" onClick={handleAddSkill} style={{
+          width: "180px",
+        }}>
           Add Skill
         </Button>
       </FormGroup>
@@ -160,16 +163,20 @@ export const ResumeForm = (props) => {
               }
               required
             />
+
             <Button
-              color="danger"
+              color="white"
               className="ml-2"
               onClick={() => handleRemoveAchievement(index)}
+              style={{marginLeft: "10px"}}
             >
               Remove
             </Button>
           </div>
         ))}
-        <Button color="primary" onClick={handleAddAchievements}>
+        <Button color="white" onClick={handleAddAchievements} style={{
+          width: "180px",
+        }}>
           Add Achievement
         </Button>
       </FormGroup>
@@ -192,15 +199,18 @@ export const ResumeForm = (props) => {
               required
             />
             <Button
-              color="danger"
+              color="white"
               className="ml-2"
               onClick={() => handleRemoveEducation(index)}
+              style={{marginLeft: "10px"}}
             >
               Remove
             </Button>
           </div>
         ))}
-        <Button color="primary" onClick={handleAddEducation}>
+        <Button color="white" onClick={handleAddEducation} style={{
+          width: "180px",
+        }}>
           Add Education
         </Button>
       </FormGroup>
@@ -227,15 +237,18 @@ export const ResumeForm = (props) => {
               required
             />
             <Button
-              color="danger"
+              color="white"
               className="ml-2"
               onClick={() => handleRemoveProject(index)}
+              style={{marginLeft: "10px"}}
             >
               Remove
             </Button>
           </div>
         ))}
-        <Button color="primary" onClick={handleAddProjects}>
+        <Button color="white" onClick={handleAddProjects} style={{
+          width: "180px",
+        }}>
           Add Project
         </Button>
       </FormGroup>

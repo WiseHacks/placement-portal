@@ -1,39 +1,73 @@
 import React from 'react';
-import { Container, Row, Col, Card, CardHeader, CardBody, CardTitle, CardText } from 'reactstrap';
+import { Container, Row, Col, Card, CardHeader, CardBody, CardTitle, CardText, Table, List } from 'reactstrap';
+import { getCurrentUserDetail } from '../auth';
 
-export const ResumeDisplay = ({ resume,isLoading }) => {
+export const ResumeDisplay = ({ resume, isLoading }) => {
+  const stringsss = ["help", "me", "please"];
   return (
-    isLoading ?(<h1>....Loading</h1>):
-    <Container>
-      <Row>
-        <Col sm="12" md={{ size: 8, offset: 2 }}>
-          <Card>
-            <CardHeader>
-              <h2>{resume?.name}</h2>
-            </CardHeader>
-            <CardBody>
-              <CardTitle>Address:</CardTitle>
-              <CardText>{resume?.address}</CardText>
-              <CardTitle>Work Experience:</CardTitle>
-              <CardText>{resume?.workExperience}</CardText>
-              <CardTitle>Phone Number:</CardTitle>
-              <CardText>{resume?.phoneNumber}</CardText>
-              <CardTitle>Skills:</CardTitle>
-              <CardText>{resume?.skills?.join(', ')}</CardText>
-              <CardTitle>Achievements:</CardTitle>
-              <CardText>{resume?.achievements?.join(', ')}</CardText>
-              <CardTitle>Education:</CardTitle>
-              <CardText>{resume?.education?.join(', ')}</CardText>
-              <CardTitle>Projects:</CardTitle>
-              <CardText>{resume?.projects.join(', ')}</CardText>
-              <CardTitle>CGPA:</CardTitle>
-              <CardText>{resume?.cgpa}</CardText>
-            </CardBody>
-          </Card>
-        </Col>
-      </Row>
-    </Container>
-    
+    isLoading ? (<h1>....Loading</h1>) :
+      <Container>
+
+        {/* <Row>
+          <Col sm="12" md={{ size: 12, offset: 0 }}> */}
+            <Card>
+              <CardHeader>
+                <div class="d-flex justify-content-around align-items-center">
+                  <h2>{resume?.name}</h2>
+                  <h5>+91 {resume?.phoneNumber}</h5>
+                  <h5>{getCurrentUserDetail().email}</h5>
+                </div>
+              </CardHeader>
+              <CardBody>
+                <Table className='table-fixed'>
+                  {/* <thead>
+                    <tr>
+                      <th className='col-2'></th>
+                      <th></th>
+                    </tr>
+                  </thead> */}
+                  <tbody>
+                    <tr>
+                      <td className='col-3'>CGPA:</td>
+                      <td>{resume?.cgpa}</td>
+                    </tr>
+                    <tr>
+                      <td>Address:</td>
+                      <td>{resume?.address}</td>
+                    </tr>
+                    <tr>
+                      <td>Phone Number:</td>
+                      <td>{resume?.phoneNumber}</td>
+                    </tr>
+                    <tr>
+                      <td>Work Experience:</td>
+                      <td>{resume?.workExperience}</td>
+                    </tr>
+                    <tr>
+                      <td>Education:</td>
+                      <td>{resume?.education?.join(',\n')}</td>
+                    </tr>
+                    <tr>
+                      <td>Skills:</td>
+                      <td>{resume?.skills?.join(',\n')}</td>
+                    </tr>
+                    <tr>
+                      <td>Projects:</td>
+                      <td>{resume?.projects?.join(',\n')}</td>
+                    </tr>
+                    <tr>
+                      <td>Achievements:</td>
+                      <td>{stringsss.map(str => str + "\n").join("")}</td>
+                    </tr>
+                  </tbody>
+
+                </Table>
+              </CardBody>
+            </Card>
+          {/* </Col>
+        </Row> */}
+      </Container>
+
   );
 };
 
