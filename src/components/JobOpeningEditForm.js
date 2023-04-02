@@ -8,7 +8,7 @@ export const JobOpeningForm = ({ jobOpening, onSubmit }) => {
   const [cgpaCutoff, setCgpaCutoff] = useState(jobOpening.cgpaCutoff || '');
   const [companyName, setCompanyName] = useState(jobOpening.companyName || '');
   const [jobProfile, setJobProfile] = useState(jobOpening.jobProfile || '');
-  const [companyId,setCompanyId] = useState(jobOpening.companyId || '');
+  const [companyId, setCompanyId] = useState(jobOpening.companyId || '');
 
   useEffect(() => {
     setJobId(jobOpening.jobId || '');
@@ -66,7 +66,9 @@ export const JobOpeningForm = ({ jobOpening, onSubmit }) => {
         <Label for="companyName">Company Name:</Label>
         <Input type="text" name="companyName" id="companyName" value={companyName} onChange={(event) => setCompanyName(event.target.value)} required disabled />
       </FormGroup>
-      <Button color="primary" type="submit">Submit</Button>
+      <div className="d-flex justify-content-center">
+        <Button color="" type="submit">Submit</Button>
+      </div>
     </Form>
   );
 };

@@ -195,13 +195,13 @@ export const CompanyList = () => {
                         </FormGroup>
                         <div>
                           <Button
-                            color="secondary"
+                            color=""
                             onClick={cancelEditingCompany}
                           >
                             Cancel
                           </Button>
                           <Button
-                            color="primary"
+                            color=""
                             onClick={() => saveEditingCompany(company.id)}
                             style={{
                               marginLeft: "10px",

@@ -10,7 +10,10 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-  FormFeedback
+  FormFeedback,
+  Container,
+  Card,
+  CardBody
 } from "reactstrap";
 import { getAllCompanies } from "../services/company-service";
 import { createJobOpening } from "../services/job-opening-service";
@@ -24,7 +27,7 @@ export const JobOpeningForm = () => {
   const [selectedCompany, setSelectedCompany] = useState("");
   const [companies, setCompanies] = useState([]);
   const [loadedCompanies, setLoadedCompanies] = useState(false);
-  
+
   const [jobDetails, setJobDetails] = useState({
     jobId: "",
     jobDescription: "",
@@ -34,11 +37,11 @@ export const JobOpeningForm = () => {
     companyName: "",
     companyId: "",
   });
-  
-const [error, setError] = useState({
-  errors: {},
-  isError: false,
-});
+
+  const [error, setError] = useState({
+    errors: {},
+    isError: false,
+  });
 
   const toggle = () => setIsOpen(!isOpen);
   const toggleDropdown = () => setDropdownOpen((prevState) => !prevState);
@@ -59,16 +62,16 @@ const [error, setError] = useState({
     }
     event.preventDefault();
     let jobOpeningDto = {
-      company:{
-        id:jobDetails.companyId,
-        companyName:jobDetails.companyName
+      company: {
+        id: jobDetails.companyId,
+        companyName: jobDetails.companyName
       },
-      cgpaCutoff:jobDetails.cgpaCutoff,
-      jobDescription:jobDetails.jobDescription,
-      jobProfile:jobDetails.jobProfile,
+      cgpaCutoff: jobDetails.cgpaCutoff,
+      jobDescription: jobDetails.jobDescription,
+      jobProfile: jobDetails.jobProfile,
       user: getCurrentUserDetail()
     }
-    createJobOpening(jobOpeningDto).then((data)=>{
+    createJobOpening(jobOpeningDto).then((data) => {
       toast.success("Job Opening Posted successfully");
       console.log(data);
       // Clear form fields
@@ -83,7 +86,7 @@ const [error, setError] = useState({
       });
       setSelectedCompany("");
       setIsOpen(false);
-    }).catch((error)=>{
+    }).catch((error) => {
       console.log(error);
       toast.error("Invalid Form data !!");
       setError({
@@ -94,7 +97,7 @@ const [error, setError] = useState({
       setIsOpen(false);
     })
 
- 
+
   };
 
   const loadCompaniesFromDb = () => {
@@ -121,52 +124,66 @@ const [error, setError] = useState({
   }
 
   return (
-    <div>
-      <Button color="primary" onClick={toggle} style={{ marginBottom: "1rem" }}>
-        Add Job Opening
-      </Button>
-      <Collapse isOpen={isOpen}>
-        <Form onSubmit={handleSubmit}>
-          <FormGroup>
-            <Label for="jobProfile">Job Profile</Label>
-            <Input
-              type="text"
-              name="jobProfile"
-              id="jobProfile"
-              value={jobDetails.jobProfile}
-              onChange={(event) =>
-                setJobDetails({ ...jobDetails, jobProfile: event.target.value })
-              }
-              invalid={
-                error.errors?.response?.data?.jobProfile ? true : false
-              }
-            />
-             <FormFeedback>
-                        {error.errors?.response?.data?.jobProfile}
-                      </FormFeedback>
-          </FormGroup>
-          <FormGroup>
-            <Label for="jobDescription">Job Description</Label>
-            <Input
-              type="textarea"
-              name="jobDescription"
-              id="jobDescription"
-              value={jobDetails.jobDescription}
-              onChange={(event) =>
-                setJobDetails({
-                  ...jobDetails,
-                  jobDescription: event.target.value,
-                })
-              }
-              invalid={
-                error.errors?.response?.data?.jobDescription ? true : false
-              }
-            />
-            <FormFeedback>
-                        {error.errors?.response?.data?.jobDescription}
-                      </FormFeedback>
-          </FormGroup>
-          {/* <FormGroup>
+    <Container className="d-flex justify-content-center align-items-center card-container">
+      <Card className="card p-4 shadow" style={{
+        overflow: "auto",
+        width: "75vw",
+        height: "95vh",
+        // marginRight:"100px",
+        // padding: "15rem",
+        borderRadius: "2rem",
+        boxShadow: "0 0 50px 0 rgba(1, 0, 0, 1);",
+      }}>
+        <CardBody>
+          <h1 style={{
+            color: "#7a92eb",
+          }}>Post a job</h1>
+          {/* <Button color="" onClick={toggle} style={{ marginBottom: "1rem", width: "100%" }}>
+            Add Job Opening
+          </Button>
+          <Collapse isOpen={isOpen}> */}
+          <Form onSubmit={handleSubmit}>
+            <FormGroup>
+              <Label for="jobProfile">Job Profile</Label>
+              <Input
+                type="text"
+                name="jobProfile"
+                id="jobProfile"
+                value={jobDetails.jobProfile}
+                onChange={(event) =>
+                  setJobDetails({ ...jobDetails, jobProfile: event.target.value })
+                }
+                invalid={
+                  error.errors?.response?.data?.jobProfile ? true : false
+                }
+              />
+              <FormFeedback>
+                {error.errors?.response?.data?.jobProfile}
+              </FormFeedback>
+            </FormGroup>
+            <FormGroup>
+              <Label for="jobDescription">Job Description</Label>
+              <Input
+                type="textarea"
+                name="jobDescription"
+                id="jobDescription"
+                value={jobDetails.jobDescription}
+                onChange={(event) =>
+                  setJobDetails({
+                    ...jobDetails,
+                    jobDescription: event.target.value,
+                  })
+                }
+                invalid={
+                  error.errors?.response?.data?.jobDescription ? true : false
+                }
+                style={{ height: "200px" }}
+              />
+              <FormFeedback>
+                {error.errors?.response?.data?.jobDescription}
+              </FormFeedback>
+            </FormGroup>
+            {/* <FormGroup>
             <Label for="postedBy">Posted By</Label>
             <Input
               type="text"
@@ -178,47 +195,53 @@ const [error, setError] = useState({
               }
             />
           </FormGroup> */}
-          <FormGroup>
-            <Label for="cgpaCutoff">CGPA Cutoff</Label>
-            <Input
-              type="text"
-              name="cgpaCutoff"
-              id="cgpaCutoff"
-              value={jobDetails.cgpaCutoff}
-              onChange={(event) =>
-                setJobDetails({ ...jobDetails, cgpaCutoff: event.target.value })
-              }
-              invalid={
-                error.errors?.response?.data?.cgpaCutoff ? true : false
-              }
-            />
-             <FormFeedback>
-                        {error.errors?.response?.data?.jobDescription}
-                      </FormFeedback>
-          </FormGroup>
-          <FormGroup>
-            <Label for="companyName">Company Name</Label>
-            <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown} >
-              <DropdownToggle caret>
-                {selectedCompany ? selectedCompany : "Select Company"}
-              </DropdownToggle>
-              <DropdownMenu>
-                {companies.map((company) => (
-                  <DropdownItem
-                    key={company.id}
-                    onClick={() => handleSelectCompany(company)}
-                  >
-                    {company.companyName}
-                  </DropdownItem>
-                ))}
-              </DropdownMenu>
-            </Dropdown>
-          </FormGroup>
-          <Button color="primary" type="submit">
-            Submit
-          </Button>
-        </Form>
-      </Collapse>
-    </div>
+            <FormGroup>
+              <Label for="cgpaCutoff">CGPA Cutoff</Label>
+              <Input
+                type="text"
+                name="cgpaCutoff"
+                id="cgpaCutoff"
+                value={jobDetails.cgpaCutoff}
+                onChange={(event) =>
+                  setJobDetails({ ...jobDetails, cgpaCutoff: event.target.value })
+                }
+                invalid={
+                  error.errors?.response?.data?.cgpaCutoff ? true : false
+                }
+              />
+              <FormFeedback>
+                {error.errors?.response?.data?.jobDescription}
+              </FormFeedback>
+            </FormGroup>
+            <FormGroup>
+              <Label for="companyName">Company Name</Label>
+              <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown} >
+                <DropdownToggle caret color="">
+                  {selectedCompany ? selectedCompany : "Select Company"}
+                </DropdownToggle>
+                <DropdownMenu>
+                  {companies.map((company) => (
+                    <DropdownItem
+                      key={company.id}
+                      onClick={() => handleSelectCompany(company)}
+                    >
+                      {company.companyName}
+                    </DropdownItem>
+                  ))}
+                </DropdownMenu>
+              </Dropdown>
+            </FormGroup>
+            <div className="d-flex justify-content-center">
+              <Button color="" type="submit" className="mt-3 btn-lg">
+                Submit
+              </Button>
+            </div>
+
+          </Form>
+          {/* </Collapse> */}
+        </CardBody>
+
+      </Card>
+    </Container>
   );
 };
