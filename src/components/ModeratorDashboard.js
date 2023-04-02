@@ -12,6 +12,7 @@ import { JobOpeningsList } from './JobOpeningModeratorView';
 import { JobOpeningEditor } from './JobOpeningModeratorEdit';
 import { JobApplications } from './JobApplicationModeratorView';
 import { EmailSendForm } from './ModeratorSendEmail';
+import { StudentPlacementTable } from './PlacementStats';
 import { getUserByEmail, updateUser } from '../services/user-service';
 
 const ModeratorDashboard = () => {
@@ -169,6 +170,16 @@ const ModeratorDashboard = () => {
                                     Placement Status
                                 </NavLink>
                             </NavItem> */}
+                            <NavItem className="sidenav-item">
+                                <NavLink
+                                    href="#"
+                                    onClick={() => handleNavItemClick('placementstats')}
+                                    className={active === 'placementstats' ? 'active' : ''}
+                                >
+                                    <i className="fas fa-cog fa-lg mr-3"></i>
+                                    Placement Statistics
+                                </NavLink>
+                            </NavItem>
                             <NavItem className="sidenav-item mt-auto">
                                 <NavLink href="#" onClick={signOut}>
                                     <i className="fas fa-sign-out-alt fa-lg mr-3"></i>
@@ -252,6 +263,9 @@ const ModeratorDashboard = () => {
                 )}
                 {active === 'sendemail' && (
                     <EmailSendForm />
+                )}
+                {active === 'placementstats' && (
+                    <StudentPlacementTable />
                 )}
                 {/* {active === 'myresume' && (
                     <ResumeCard/>
