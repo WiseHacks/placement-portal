@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Card, CardBody, CardTitle, CardSubtitle, Button } from 'reactstrap';
+import { Card, CardBody, CardTitle, Container, CardSubtitle, Button } from 'reactstrap';
 import { getMyPlacementStatus } from '../services/placement-status-service';
-import './styles/Placementstatus.css'
+// import './styles/Placementstatus.css'
 
 export const StudentPlacementStatus = ({ userEmail }) => {
   const [placementStatus, setPlacementStatus] = useState(null);
@@ -22,30 +22,43 @@ export const StudentPlacementStatus = ({ userEmail }) => {
   }, [userEmail]);
 
   return (
-    <Card>
-      <CardBody>
-        <CardTitle>Placement Status</CardTitle>
-        {placementStatus ? (
-          <>
-            <CardSubtitle>
-              {placementStatus.isPlaced ? 'Placed : Yes' : 'Not Placed Yet'}
-            </CardSubtitle>
-            {placementStatus.isPlaced && (
-              <>
-              <p>Name: {placementStatus?.placedJobApplication?.user?.name != null?placementStatus?.placedJobApplication?.user?.name != null:"N/A"}</p>
-              <p>Roll No. : {placementStatus?.placedJobApplication?.user?.rollNo != null?placementStatus?.placedJobApplication?.user?.rollNo != null:"N/A"}</p>
+    <div>
+      <Container className="d-flex justify-content-center align-items-center card-container">
+        <Card className="card p-4 shadow" style={{
+          overflow: "auto",
+          width: "75vw",
+          // height: "95vh",
+          borderRadius: "2rem",
+          boxShadow: "0 0 10px 0 rgba(1, 0, 0, 1);",
+        }}>
+          <CardBody>
+            <h1 style={{
+              color: "#7a92eb",
+            }}>Placement Status</h1>
+            <div>
+              {placementStatus ? (
+                <>
+                  <CardSubtitle>
+                    {placementStatus.isPlaced ? 'You are placed' : 'Not Placed Yet'}
+                  </CardSubtitle>
+                  {placementStatus.isPlaced && (
+                    <>
+                      <p>Name: {placementStatus?.placedJobApplication?.user?.name != null ? placementStatus?.placedJobApplication?.user?.name != null : "N/A"}</p>
+                      <p>Roll No. : {placementStatus?.placedJobApplication?.user?.rollNo != null ? placementStatus?.placedJobApplication?.user?.rollNo != null : "N/A"}</p>
 
-                <p>Company: {placementStatus.placedJobApplication.jobOpening.company.companyName}</p>
-                <p>Job Profile: {placementStatus.placedJobApplication.jobOpening.jobProfile}</p>
-              </>
-            )}
-          </>
-        ) : (
-          <p>Loading...</p>
-        )}
-        {/* <Button color="primary">Edit Status</Button> */}
-      </CardBody>
-    </Card>
+                      <p>Company: {placementStatus.placedJobApplication.jobOpening.company.companyName}</p>
+                      <p>Job Profile: {placementStatus.placedJobApplication.jobOpening.jobProfile}</p>
+                    </>
+                  )}
+                </>
+              ) : (
+                <p>Loading...</p>
+              )}
+            </div>
+          </CardBody>
+        </Card>
+      </Container>
+    </div>
   );
 };
 

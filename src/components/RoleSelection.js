@@ -137,8 +137,8 @@ const RoleSelection = () => {
       <div
         className="card p-4 position-absolute top-50 start-50 translate-middle"
         style={{
-          width: "50vw",
-          height: "70vh",
+          width: "50%",
+          height: "70%",
           backgroundColor: "rgba(255, 255, 255, 0.85)",
           borderRadius: "50px",
           overflow: "auto",

@@ -1,7 +1,7 @@
 import { Alert } from 'bootstrap';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Navbar, Nav, NavItem, NavLink, Container, Card, CardBody, Form, FormGroup, FormText, Label, Input, Button } from 'reactstrap';
+import { Navbar, Nav, NavItem, NavLink, Container, Card, CardBody, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import './styles/Dashboard.css';
 import { doLogout, getCurrentUserDetail, isLoggedIn } from '../auth/index';
 import { toast } from 'react-toastify';
@@ -51,8 +51,6 @@ const StudentDashboard = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-
-        console.log(event.target.elements.name.value);
         // Save updated form values
         // setName(event.target.elements.name.value);
         // setEmail(event.target.elements.email.value);
@@ -160,56 +158,49 @@ const StudentDashboard = () => {
 
                     <Container className="d-flex justify-content-center align-items-center card-container">
                         <Card className="card p-4 shadow" style={{
-                            overflow : "auto",
                             width: "75vw",
-                            height: "95vh",
                             // marginRight:"100px",
                             // padding: "15rem",
                             borderRadius: "2rem",
-                            boxShadow: "0 0 50px 0 rgba(1, 0, 0, 1);",
+                            boxShadow: "0 0 50px 0 rgba(1, 0, 0, 1);"
                         }}>
                             <CardBody>
-                                <h1 style={{
-                                    color: "#7a92eb",
-                                }}>My Profile</h1>
+                                <h1>My Profile</h1>
                                 <Form onSubmit={handleSubmit}>
                                     <FormGroup>
                                         <Label for="name">Name</Label>
-                                        <Input type="text" name="name" id="name" defaultValue={user?.name} />
+                                        <Input type="text" name="name" id="name" defaultValue="hello" />
                                         <FormText color="muted">
-                                            Change your full name (e.g. Divyesh Rana)
-                                        </FormText>
+    Enter your full name (e.g. John Smith)
+  </FormText>
                                     </FormGroup>
                                     <FormGroup>
                                         <Label for="email">Email</Label>
-                                        <Input type="email" name="email" id="email" defaultValue={user?.email} disabled />
+                                        <Input type="email" name="email" id="email" defaultValue="lol" />
                                     </FormGroup>
                                     <FormGroup>
                                         <Label for="phone">Phone</Label>
-                                        <Input type="text" name="phone" id="phone" defaultValue={user?.phoneNumber} disabled={user?.phoneNumber != null}/>
+                                        <Input type="text" name="phone" id="phone" defaultValue="lol" />
                                     </FormGroup>
                                     <FormGroup>
-                                        <Label for="college">College/University</Label>
-                                        <Input type="text" name="college" id="college" defaultValue={user?.college}/>
-                                        <FormText color="muted">
-                                            Change your college (e.g. IIIT Allahabad)
-                                        </FormText>
-                                    </FormGroup>
-
-                                    <FormGroup>
-                                        <Label for="rollno">Roll number</Label>
-                                        <Input type="text" name="rollno" id="rollno" defaultValue={user?.rollNo} />
-                                        <FormText color="muted">
-                                            Change your froll no. (e.g. IIT2019063)
-                                        </FormText>
+                                        <Label for="message">Message</Label>
+                                        <Input type="textarea" name="message" id="message" defaultValue="lol" disabled />
                                     </FormGroup>
                                     <div className="d-flex justify-content-center">
-                                        <Button type="submit" className="mt-3 btn-lg">Update</Button>
+                                        <Button type="submit" className="mt-3 btn-lg">Submit</Button>
                                     </div>
                                 </Form>
                             </CardBody>
                         </Card>
                     </Container>
+                    // <div>
+                    //     <h1>Profile</h1>
+                    //     <p>Name : {user?.email.split('@')[0].toUpperCase()}</p>
+                    //     <p>Email : {user?.email}</p>
+                    //     <p>Phone : +91 8457459455</p>
+                    //     <p>Role : {user?.role[0]?.roleName}</p>
+                    //     <p>College: {user?.college}</p>
+                    // </div>
                 )}
                 {active === 'jobopenings' && (
                     // <div>

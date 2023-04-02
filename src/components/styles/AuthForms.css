@@ -2,6 +2,7 @@
     background-image: url('../backgrounds/role_selection_background.jpg');
     background-size: cover;
     background-position: center center;
+    height: 100vh;
 
 }
 
@@ -9,7 +10,6 @@
     background-color: #000000;
     /* black */
     opacity: 0.9;
-    height: 100vh;
     /* set height to full viewport height */
     position: fixed;
     /* position fixed to cover entire viewport */
