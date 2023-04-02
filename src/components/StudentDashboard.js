@@ -10,6 +10,7 @@ import {JobOpeningsTable} from './JobOpeningStudentView'
 import { MyApplications } from './MyApplicationsViewStudent';
 import { StudentPlacementStatus } from './StudentPlacementStatus';
 import { StudentPlacementTable } from './PlacementStats';
+// import { SearchBar } from './Search';
 
 const StudentDashboard = () => {
     const [active, setActive] = useState('profile');
@@ -74,6 +75,16 @@ const StudentDashboard = () => {
                                     Job openings
                                 </NavLink>
                             </NavItem>
+                            {/* <NavItem className="sidenav-item">
+                                <NavLink
+                                    href="#"
+                                    onClick={() => handleNavItemClick('search')}
+                                    className={active === 'search' ? 'active' : ''}
+                                >
+                                    <i className="fas fa-cog fa-lg mr-3"></i>
+                                    Search
+                                </NavLink>
+                            </NavItem> */}
 
                             <NavItem className="sidenav-item">
                                 <NavLink
@@ -163,6 +174,9 @@ const StudentDashboard = () => {
                  {active === 'placementstats' && (
                     <StudentPlacementTable />
                 )}
+                 {/* {active === 'search' && (
+                    <SearchBar />
+                )} */}
             </div>
         </div>
     );

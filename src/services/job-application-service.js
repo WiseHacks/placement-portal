@@ -40,5 +40,9 @@ export const deleteJobApplication=(jobApplicationId)=>{
     return privateAxios.delete('/job-application/'+jobApplicationId).then((response)=> response.data);
 }
 
+export const searchJobApplication=(query)=>{
+    return privateAxios.get('/job-application/search/'+query).then((response)=>response.data);
+}
+
 
 

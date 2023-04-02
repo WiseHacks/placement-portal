@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Table } from 'reactstrap';
-import { deleteJobApplication, getAllApplicationsForUser } from '../services/job-application-service';
-import {Button} from 'reactstrap'
+import { deleteJobApplication, getAllApplicationsForUser, searchJobApplication } from '../services/job-application-service';
+import {Button,InputGroup, InputGroupText,Input} from 'reactstrap'
 import {toast} from 'react-toastify'
+import { getCurrentUserDetail } from '../auth';
 export const MyApplications = () => {
   const [myApplications, setMyApplications] = useState([]);
+  const [searchText, setSearchText] = useState('');
 
   useEffect(() => {
     const fetchMyApplications = async ()=>{
@@ -24,6 +26,24 @@ export const MyApplications = () => {
     console.log(response);
     setMyApplications(response);
 }
+const handleSearch = async() => {
+  const resp = await searchJobApplication(searchText);
+  let arr = [];
+  resp.forEach((r)=>{
+    if(r.user.email == getCurrentUserDetail().email)arr.push(r);
+  })
+  if(arr.length)setMyApplications(arr);
+}
+
+const handleSearchInputChange = (e) => {
+  setSearchText(e.target.value);
+};
+
+const handleKeyPress = (e) => {
+  if (e.key === 'Enter') {
+    handleSearch();
+  }
+};
 
   const withdrawApplication = async(application)=>{
     const resp =await deleteJobApplication(application.id);
@@ -33,6 +53,19 @@ export const MyApplications = () => {
 
   return (
     <>
+    <InputGroup>
+    <Input
+      placeholder="Enter Search query"
+      value={searchText}
+      onChange={handleSearchInputChange}
+      onKeyPress={handleKeyPress}
+    />
+    <InputGroupText addonType="append">
+      <Button color="primary" onClick={handleSearch}>
+        Search
+      </Button>
+    </InputGroupText>
+  </InputGroup>
     {myApplications.length
     ?
     <Table>

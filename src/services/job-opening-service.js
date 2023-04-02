@@ -40,3 +40,7 @@ export const editJobOpening=(jobOpeningDto)=>{
     return privateAxios.put("/job-opening/"+jobOpeningDto.id,jobOpeningDto).then((response)=>response.data);
 }
 
+export const searchJobOpening=(query)=>{
+    return privateAxios.get("/job-opening/search/"+query).then((response)=>response.data);
+}
+
