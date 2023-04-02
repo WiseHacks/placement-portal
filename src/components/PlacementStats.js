@@ -50,8 +50,8 @@ export const StudentPlacementTable = () => {
                   <tbody>
                     {students.map((student) => (
                       <tr key={student.email}>
-                        <td>{student?.placedJobApplication?.user?.name != null ? student?.placedJobApplication?.user?.name != null : "N/A"}</td>
-                        <td>{student?.placedJobApplication?.user?.rollNo != null ? student?.placedJobApplication?.user?.rollNo != null : "N/A"}</td>
+                        <td>{student?.placedJobApplication?.user?.name != null ? student?.placedJobApplication?.user?.name : "N/A"}</td>
+                        <td>{student?.placedJobApplication?.user?.rollNo != null ? student?.placedJobApplication?.user?.rollNo  : "N/A"}</td>
                         <td>{student.email}</td>
                         <td>{student.isPlaced ? 'Yes' : 'No'}</td>
                         <td>{student.isPlaced ? student.placedJobApplication.jobOpening.company.companyName : 'N/A'}</td>
