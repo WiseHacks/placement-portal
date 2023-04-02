@@ -4,6 +4,8 @@ import { createResume } from '../services/resume-service';
 
 export const ResumeForm = (props) => {
   const [skills, setSkills] = useState(['']);
+  const [socials, setSocials] = useState(['']);
+  const [workexps, setWorkexps] = useState(['']);
   const [achievements, setAchievements] = useState(['']);
   const [projects, setProjects] = useState(['']);
   const [education, setEducation] = useState(['']);
@@ -22,6 +24,34 @@ export const ResumeForm = (props) => {
 
   const handleRemoveSkill = (index) => {
     setSkills((prevSkills) => prevSkills.filter((_, i) => i !== index));
+  };
+
+  const handleSocialsChange = (index, value) => {
+    const newSocials = [...socials];
+    newSocials[index] = value;
+    setSocials(newSocials);
+  };
+
+  const handleAddSocial = () => {
+    setSocials([...socials, '']);
+  };
+
+  const handleRemoveSocial = (index) => {
+    setSocials((prevSocials) => prevSocials.filter((_, i) => i !== index));
+  };
+
+  const handleWorkexpsChange = (index, value) => {
+    const newWorkexps = [...socials];
+    newWorkexps[index] = value;
+    setWorkexps(newWorkexps);
+  };
+
+  const handleAddWorkexp = () => {
+    setWorkexps([...workexps, '']);
+  };
+
+  const handleRemoveWorkexps = (index) => {
+    setWorkexps((prevWorkexps) => prevWorkexps.filter((_, i) => i !== index));
   };
 
   const handleAchievementsChange = (index, value) => {
@@ -106,12 +136,76 @@ export const ResumeForm = (props) => {
         <Input type="text" name="address" id="address" placeholder="Enter your address" required />
       </FormGroup>
       <FormGroup>
-        <Label for="workExperience">Work Experience</Label>
-        <Input type="text" name="workExperience" id="workExperience" placeholder="Enter your work experience" required />
-      </FormGroup>
-      <FormGroup>
         <Label for="phoneNumber">Phone Number</Label>
         <Input type="tel" name="phoneNumber" id="phoneNumber" placeholder="Enter your phone number" pattern="[0-9]{10}" required />
+      </FormGroup>
+      <FormGroup>
+        <Label for="socials">Social Profiles</Label>
+        {socials.map((social, index) => (
+          <div
+            key={`social-${index}`}
+            className="d-flex align-items-center mb-2"
+          >
+            <Input
+              type="text"
+              name="socials"
+              id={`social-${index}`}
+              placeholder="Enter a social profile detail"
+              value={social}
+              onChange={(event) => handleSocialsChange(index, event.target.value)}
+              required
+            />
+            <Button
+              color="white"
+              className="ml-2"
+              onClick={() => handleRemoveSocial(index)}
+              style={{marginLeft: "10px"}}
+            >
+              Remove
+            </Button>
+          </div>
+        ))}
+        <Button color="white" onClick={handleAddSocial} style={{
+          width: "180px",
+        }}>
+          Add Social Profile
+        </Button>
+      </FormGroup>
+      <FormGroup>
+        <Label for="workexps">Work experiences</Label>
+        {workexps.map((workexp, index) => (
+          <div
+            key={`workexp-${index}`}
+            className="d-flex align-items-center mb-2"
+          >
+            <Input
+              type="text"
+              name="workexps"
+              id={`workexp-${index}`}
+              placeholder="Enter a work experience"
+              value={workexp}
+              onChange={(event) => handleWorkexpsChange(index, event.target.value)}
+              required
+            />
+            <Button
+              color="white"
+              className="ml-2"
+              onClick={() => handleRemoveWorkexps(index)}
+              style={{marginLeft: "10px"}}
+            >
+              Remove
+            </Button>
+          </div>
+        ))}
+        <Button color="white" onClick={handleAddWorkexp} style={{
+          width: "180px",
+        }}>
+          Add Work Experience
+        </Button>
+      </FormGroup>
+      <FormGroup>
+        <Label for="workExperience">Work Experience</Label>
+        <Input type="text" name="workExperience" id="workExperience" placeholder="Enter your work experience" required />
       </FormGroup>
       <FormGroup>
         <Label for="skills">Skills</Label>

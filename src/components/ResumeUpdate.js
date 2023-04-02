@@ -11,6 +11,7 @@ export const ResumeUpdateForm = ({ resume, onUpdate }) => {
   const [education, setEducation] = useState(resume.education);
   const [projects, setProjects] = useState(resume.projects);
   const [cgpa, setCgpa] = useState(resume.cgpa);
+  const [socialProfiles, setSocialProfiles] = useState(resume.socialProfiles);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -26,6 +27,38 @@ export const ResumeUpdateForm = ({ resume, onUpdate }) => {
       cgpa,
     };
     onUpdate(updatedResume);
+  };
+
+  const handleAddWorkExperience = () => {
+    setWorkExperience([...workExperience, ""]);
+  };
+
+  const handleWorkExperienceChange = (index, value) => {
+    setWorkExperience((prevWorkExperiences) => {
+      const updatedWorkExperiences = [...prevWorkExperiences];
+      updatedWorkExperiences[index] = value;
+      return updatedWorkExperiences;
+    });
+  };
+
+  const handleRemoveWorkExperience = (index) => {
+    setWorkExperience((prevWorkExperiences) => prevWorkExperiences.filter((_, i) => i !== index));
+  };
+
+  const handleAddSocialProfile = () => {
+    setSocialProfiles([...socialProfiles, ""]);
+  };
+
+  const handleSocialProfileChange = (index, value) => {
+    setSocialProfiles((prevSocialProfiles) => {
+      const updatedSocialProfiles = [...prevSocialProfiles];
+      updatedSocialProfiles[index] = value;
+      return updatedSocialProfiles;
+    });
+  };
+
+  const handleRemoveSocialProfile = (index) => {
+    setSocialProfiles((prevSocialProfiles) => prevSocialProfiles.filter((_, i) => i !== index));
   };
 
   const handleAddSkill = () => {
@@ -123,18 +156,6 @@ export const ResumeUpdateForm = ({ resume, onUpdate }) => {
         />
       </FormGroup>
       <FormGroup>
-        <Label for="workExperience">Work Experience</Label>
-        <Input
-          type="textarea"
-          name="workExperience"
-          id="workExperience"
-          placeholder="Enter your work experience"
-          value={workExperience}
-          onChange={(event) => setWorkExperience(event.target.value)}
-          required
-        />
-      </FormGroup>
-      <FormGroup>
         <Label for="phoneNumber">Phone Number</Label>
         <Input
           type="tel"
@@ -146,6 +167,85 @@ export const ResumeUpdateForm = ({ resume, onUpdate }) => {
           required
         />
       </FormGroup>
+      <FormGroup>
+        <Label for="socialProfiles">Social Profiles</Label>
+        {socialProfiles.map((socialProfile, index) => (
+          <div
+            key={`socialProfile-${index}`}
+            className="d-flex align-items-center mb-2"
+          >
+            <Input
+              type="text"
+              name="socialProfiles"
+              id={`socialProfile-${index}`}
+              placeholder="Enter a social profile detail"
+              value={socialProfile}
+              onChange={(event) => handleSocialProfileChange(index, event.target.value)}
+              required
+            />
+            <Button
+              color="white"
+              className="ml-2"
+              onClick={() => handleRemoveSocialProfile(index)}
+              style={{marginLeft: "10px"}}
+            >
+              Remove
+            </Button>
+          </div>
+        ))}
+        <Button color="primary" onClick={handleAddSocialProfile}  style={{
+          width: "180px",
+        }}>
+          Add Social Profile
+        </Button>
+      </FormGroup>
+
+      <FormGroup>
+        <Label for="workExperience">Work Experiences</Label>
+        {workExperience.map((workExp, index) => (
+          <div
+            key={`workExp-${index}`}
+            className="d-flex align-items-center mb-2"
+          >
+            <Input
+              type="text"
+              name="workExperience"
+              id={`workExp-${index}`}
+              placeholder="Enter a social profile detail"
+              value={workExp}
+              onChange={(event) => handleWorkExperienceChange(index, event.target.value)}
+              required
+            />
+            <Button
+              color="white"
+              className="ml-2"
+              onClick={() => handleRemoveWorkExperience(index)}
+              style={{marginLeft: "10px"}}
+            >
+              Remove
+            </Button>
+          </div>
+        ))}
+        <Button color="primary" onClick={handleAddWorkExperience}  style={{
+          width: "180px",
+        }}>
+          Add Work Experience
+        </Button>
+      </FormGroup>
+
+      {/* <FormGroup>
+        <Label for="workExperience">Work Experience</Label>
+        <Input
+          type="textarea"
+          name="workExperience"
+          id="workExperience"
+          placeholder="Enter your work experience"
+          value={workExperience}
+          onChange={(event) => setWorkExperience(event.target.value)}
+          required
+        />
+      </FormGroup>
+       */}
       <FormGroup>
         <Label for="skills">Skills</Label>
         {skills.map((skill, index) => (
@@ -163,15 +263,18 @@ export const ResumeUpdateForm = ({ resume, onUpdate }) => {
               required
             />
             <Button
-              color="danger"
+              color="white"
               className="ml-2"
               onClick={() => handleRemoveSkill(index)}
+              style={{marginLeft: "10px"}}
             >
               Remove
             </Button>
           </div>
         ))}
-        <Button color="primary" onClick={handleAddSkill}>
+        <Button color="primary" onClick={handleAddSkill}  style={{
+          width: "180px",
+        }}>
           Add Skill
         </Button>
       </FormGroup>
@@ -194,15 +297,18 @@ export const ResumeUpdateForm = ({ resume, onUpdate }) => {
               required
             />
             <Button
-              color="danger"
+              color="white"
               className="ml-2"
               onClick={() => handleRemoveAchievement(index)}
+              style={{marginLeft: "10px"}}
             >
               Remove
             </Button>
           </div>
         ))}
-        <Button color="primary" onClick={handleAddAchievement}>
+        <Button color="primary" onClick={handleAddAchievement} style={{
+          width: "180px",
+        }}>
           Add Achievement
         </Button>
       </FormGroup>
@@ -225,15 +331,18 @@ export const ResumeUpdateForm = ({ resume, onUpdate }) => {
               required
             />
             <Button
-              color="danger"
+              color="white"
               className="ml-2"
               onClick={() => handleRemoveEducation(index)}
+              style={{marginLeft: "10px"}}
             >
               Remove
             </Button>
           </div>
         ))}
-        <Button color="primary" onClick={handleAddEducation}>
+        <Button color="primary" onClick={handleAddEducation} style={{
+          width: "180px",
+        }}>
           Add Education
         </Button>
       </FormGroup>
@@ -256,15 +365,18 @@ export const ResumeUpdateForm = ({ resume, onUpdate }) => {
               required
             />
             <Button
-              color="danger"
+              color="white"
               className="ml-2"
               onClick={() => handleRemoveProject(index)}
+              style={{marginLeft: "10px"}}
             >
               Remove
             </Button>
           </div>
         ))}
-        <Button color="primary" onClick={handleAddProject}>
+        <Button color="primary" onClick={handleAddProject} style={{
+          width: "180px",
+        }}>
           Add Project
         </Button>
       </FormGroup>
