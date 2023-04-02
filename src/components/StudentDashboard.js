@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import { ResumeCard } from './Resume'
 import { JobOpeningsTable } from './JobOpeningStudentView'
 import { MyApplications } from './MyApplicationsViewStudent';
-import { getUserByEmail } from '../services/user-service';
+import { getUserByEmail, updateUser } from '../services/user-service';
 import { StudentPlacementStatus } from './StudentPlacementStatus';
 import { StudentPlacementTable } from './PlacementStats';
 
@@ -30,11 +30,10 @@ const StudentDashboard = () => {
     }
 
     useEffect(() => {
-
         setLogin(isLoggedIn());
         setUser(getCurrentUserDetail());
         const fetchUserDetails = async () => {
-            const response = await getUserByEmail(getCurrentUserDetail().email);
+            const response = await getUserByEmail(getCurrentUserDetail()?.email);
             console.log(response);
             setUser(response);
         }
@@ -51,8 +50,31 @@ const StudentDashboard = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        let old_usr = getCurrentUserDetail();
+        old_usr.rollNo = event.target.elements.rollno.value;
+        old_usr.phoneNumber = event.target.elements.phone.value;
+        old_usr.college = event.target.elements.college.value;
+        old_usr.name = event.target.elements.name.value;
+        console.log('hello',old_usr);
 
-        console.log(event.target.elements.name.value);
+        updateUser(old_usr).then((resp)=>{
+            toast.success("Updated Successfully");
+            // localStorage.removeItem("data");
+            // localStorage.setItem("data",JSON.stringify(resp));
+            // setUser(resp);
+            toast.success("Since user details updated, Please Login Again !!");
+            signOut();
+
+        }).catch((err)=>{
+            console.log(err);
+        })
+
+
+        // console.log(event.target.elements.name.value);
+        // console.log(event.target.elements.email.value);
+        // console.log(event.target.elements.phone.value);
+        // console.log(event.target.elements.rollno.value);
+        // console.log(event.target.elements.college.value);
         // Save updated form values
         // setName(event.target.elements.name.value);
         // setEmail(event.target.elements.email.value);
@@ -200,7 +222,7 @@ const StudentDashboard = () => {
                                         <Label for="rollno">Roll number</Label>
                                         <Input type="text" name="rollno" id="rollno" defaultValue={user?.rollNo} />
                                         <FormText color="muted">
-                                            Change your froll no. (e.g. IIT2019063)
+                                            Change your roll no. (e.g. IIT2019063)
                                         </FormText>
                                     </FormGroup>
                                     <div className="d-flex justify-content-center">

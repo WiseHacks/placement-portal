@@ -38,3 +38,7 @@ export const getAllInviteKeys=()=>{
     return myAxios.get('/key/all').then((response)=> response.data);
 }
 
+export const updateUser=(userDto)=>{
+    return myAxios.put('/user/'+userDto.email,userDto).then((response)=> response.data);
+}
+
