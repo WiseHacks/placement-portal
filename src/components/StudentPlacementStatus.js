@@ -43,8 +43,8 @@ export const StudentPlacementStatus = ({ userEmail }) => {
                   </CardSubtitle>
                   {placementStatus.isPlaced && (
                     <>
-                      <p>Name: {placementStatus?.placedJobApplication?.user?.name != null ? placementStatus?.placedJobApplication?.user?.name != null : "N/A"}</p>
-                      <p>Roll No. : {placementStatus?.placedJobApplication?.user?.rollNo != null ? placementStatus?.placedJobApplication?.user?.rollNo != null : "N/A"}</p>
+                      <p>Name: {placementStatus?.placedJobApplication?.user?.name != null ? placementStatus?.placedJobApplication?.user?.name  : "N/A"}</p>
+                      <p>Roll No : {placementStatus?.placedJobApplication?.user?.rollNo != null ? placementStatus?.placedJobApplication?.user?.rollNo  : "N/A"}</p>
 
                       <p>Company: {placementStatus.placedJobApplication.jobOpening.company.companyName}</p>
                       <p>Job Profile: {placementStatus.placedJobApplication.jobOpening.jobProfile}</p>

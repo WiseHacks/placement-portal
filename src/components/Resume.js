@@ -66,6 +66,7 @@ export const ResumeCard = () => {
       achievements: resume.achievements,
       education: resume.education,
       projects: resume.projects,
+      socialProfiles: resume.socialProfiles,
       cgpa: parseFloat(resume.cgpa)
     }
     updateResumeAPICall(ResumeDto).then((updatedResume) => {

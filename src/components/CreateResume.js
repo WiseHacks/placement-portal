@@ -41,7 +41,7 @@ export const ResumeForm = (props) => {
   };
 
   const handleWorkexpsChange = (index, value) => {
-    const newWorkexps = [...socials];
+    const newWorkexps = [...workexps];
     newWorkexps[index] = value;
     setWorkexps(newWorkexps);
   };
@@ -106,9 +106,10 @@ export const ResumeForm = (props) => {
     const ResumeDto = {
         name: event.target.name.value,
         address: event.target.address.value,
-        workExperience: event.target.workExperience.value,
+        workExperience: workexps,
         phoneNumber: event.target.phoneNumber.value,
         skills: skills,
+        socialProfiles:socials,
         achievements: achievements,
         education: education,
         projects: projects,
@@ -203,10 +204,10 @@ export const ResumeForm = (props) => {
           Add Work Experience
         </Button>
       </FormGroup>
-      <FormGroup>
+      {/* <FormGroup>
         <Label for="workExperience">Work Experience</Label>
         <Input type="text" name="workExperience" id="workExperience" placeholder="Enter your work experience" required />
-      </FormGroup>
+      </FormGroup> */}
       <FormGroup>
         <Label for="skills">Skills</Label>
         {skills.map((skill, index) => (

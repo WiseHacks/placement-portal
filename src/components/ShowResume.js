@@ -3,7 +3,7 @@ import { Container, Row, Col, Card, CardHeader, CardBody, CardTitle, CardText, T
 import { getCurrentUserDetail } from '../auth';
 
 export const ResumeDisplay = ({ resume, isLoading }) => {
-  const stringsss = ["help", "me", "please"];
+  // const stringsss = ["help", "me", "please"];
   return (
     isLoading ? (<h1>....Loading</h1>) :
       <Container>
@@ -41,7 +41,11 @@ export const ResumeDisplay = ({ resume, isLoading }) => {
                     </tr>
                     <tr>
                       <td>Work Experience:</td>
-                      <td>{resume?.workExperience}</td>
+                      <td>{resume?.workExperience?.join(',\n')}</td>
+                    </tr>
+                    <tr>
+                      <td>Education:</td>
+                      <td>{resume?.socialProfiles?.join(',\n')}</td>
                     </tr>
                     <tr>
                       <td>Education:</td>
@@ -57,7 +61,7 @@ export const ResumeDisplay = ({ resume, isLoading }) => {
                     </tr>
                     <tr>
                       <td>Achievements:</td>
-                      <td>{stringsss.map(str => str + "\n").join("")}</td>
+                      <td>{resume?.achievements?.join(',\n')}</td>
                     </tr>
                   </tbody>
 
