@@ -165,7 +165,7 @@ export const JobApplications = () => {
                   </thead>
                   <tbody>
                     {jobApplications.map((application) => (
-                      <>
+                      
                       <tr key={application.id} >
                         <td>{application.id}</td>
                         <td>{application.user.email.split('@')[0].toUpperCase()}</td>
@@ -179,12 +179,7 @@ export const JobApplications = () => {
                           </Button>
                         </td>
                       </tr>
-                      <tr>
-                      <td colspan="6">
-                        
-                      </td>
-                      </tr>
-                      </>
+                      
                     ))}
                   </tbody>
                 </Table>
