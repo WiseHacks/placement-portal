@@ -12,12 +12,15 @@ import {
   FormGroup,
   Input,
   Label,
+  InputGroup,
+  InputGroupText,
+  Table
 } from "reactstrap";
 import "./styles/CompanyList.css";
-import {toast} from 'react-toastify'
-import { getAllCompanies,addCompanyToDb,deleteCompanyToDb,editCompanyToDb } from "../services/company-service";
+import { toast } from 'react-toastify'
+import { getAllCompanies, addCompanyToDb, deleteCompanyToDb, editCompanyToDb } from "../services/company-service";
 export const CompanyList = () => {
-  const [companiesLoaded,setCompaniesLoaded] = useState(false);
+  const [companiesLoaded, setCompaniesLoaded] = useState(false);
   const [companies, setCompanies] = useState([]);
   const [newCompanyName, setNewCompanyName] = useState("");
   const [nextCompanyId, setNextCompanyId] = useState(1);
@@ -39,42 +42,42 @@ export const CompanyList = () => {
   //     })
   //   },);
 
-  const loadCompaniesFromDb = async ()=>{
+  const loadCompaniesFromDb = async () => {
     getAllCompanies()
-    .then((data) => {
-      let nc = [];
-      data.forEach((company) => {
-        nc.push({
-          id: company.id,
-          name: company.companyName,
+      .then((data) => {
+        let nc = [];
+        data.forEach((company) => {
+          nc.push({
+            id: company.id,
+            name: company.companyName,
+          });
         });
+        setCompanies(nc);
+
+      })
+      .catch((err) => {
+        console.log(err);
       });
-      setCompanies(nc);
-      
-    })
-    .catch((err) => {
-      console.log(err);
-    });
   }
-  if(companiesLoaded === false){
-   loadCompaniesFromDb();
-   setCompaniesLoaded(true);
+  if (companiesLoaded === false) {
+    loadCompaniesFromDb();
+    setCompaniesLoaded(true);
   }
-  
+
 
   const addCompany = (e) => {
     e.preventDefault();
     if (!newCompanyName.trim()) return;
 
-    addCompanyToDb({companyName: newCompanyName}).then((data)=>{
-        const newCompany = {
-            id: data.id,
-            name: data.companyName,
-          };
-           setCompanies((prevCompanies) => [...prevCompanies, newCompany]);
-           setNewCompanyName("");
-    }).catch((error)=>{
-        console.log(error);
+    addCompanyToDb({ companyName: newCompanyName }).then((data) => {
+      const newCompany = {
+        id: data.id,
+        name: data.companyName,
+      };
+      setCompanies((prevCompanies) => [...prevCompanies, newCompany]);
+      setNewCompanyName("");
+    }).catch((error) => {
+      console.log(error);
     })
 
   };
@@ -90,12 +93,12 @@ export const CompanyList = () => {
   };
 
   const saveEditingCompany = (id) => {
-    editCompanyToDb({id:id,companyName:editingCompanyName}).then((data)=>{
-            setEditingCompanyId(null);
-    setEditingCompanyName("");
-        loadCompaniesFromDb();
-    }).catch((error)=>{
-        console.log(error);
+    editCompanyToDb({ id: id, companyName: editingCompanyName }).then((data) => {
+      setEditingCompanyId(null);
+      setEditingCompanyName("");
+      loadCompaniesFromDb();
+    }).catch((error) => {
+      console.log(error);
     })
 
     // setCompanies((prevCompanies) => {
@@ -120,43 +123,62 @@ export const CompanyList = () => {
     //   );
     //   return updatedCompanies;
     // });
-    deleteCompanyToDb(id).then(()=>{
-        toast.success("Company deleted successfully");
-        loadCompaniesFromDb();
-    }).catch((err)=>{
-        console.log(err);
+    deleteCompanyToDb(id).then(() => {
+      toast.success("Company deleted successfully");
+      loadCompaniesFromDb();
+    }).catch((err) => {
+      console.log(err);
     })
   };
 
   return (
-    <Container>
-      <Row>
-        <Col>
-          <Form onSubmit={addCompany}>
-            <FormGroup>
-              <Label for="companyName">Company Name</Label>
-              <Input
-                type="text"
-                name="companyName"
-                id="companyName"
-                placeholder="Enter company name"
-                value={newCompanyName}
-                onChange={(e) => setNewCompanyName(e.target.value)}
-              />
-            </FormGroup>
-            <Button color="primary" type="submit">
-              Add Company
-            </Button>
-          </Form>
-        </Col>
-        <Col>
-          <h1>Company List</h1>
-          <ul className="company-list">
-            {companies.map((company) => (
-              <li key={company.id}>
-                <Card>
-                  <CardHeader>ID: {company.id}</CardHeader>
-                  <CardBody>
+    <Container className="d-flex justify-content-center align-items-center card-container">
+      <Card className="card p-4 shadow" style={{
+        overflow: "auto",
+        width: "75vw",
+        height: "95vh",
+        // marginRight:"100px",
+        // padding: "15rem",
+        borderRadius: "2rem",
+        boxShadow: "0 0 50px 0 rgba(1, 0, 0, 1);",
+      }}>
+        <CardBody>
+          <h1 style={{
+            color: "#7a92eb",
+          }}>Companies</h1>
+          <InputGroup className="mb-3">
+            <Input
+              type="text"
+              name="companyName"
+              id="companyName"
+              placeholder="Enter company name"
+              value={newCompanyName}
+              onChange={(e) => setNewCompanyName(e.target.value)}
+            />
+            <InputGroupText addonType="append" style={{
+              backgroundColor: "white",
+              border: "none"
+            }}>
+              <Button color="" className="ml-2" onClick={addCompany}>
+                Add Company
+              </Button>
+            </InputGroupText>
+          </InputGroup>
+          <h4>Company List</h4>
+          <Table responsive striped hover className="table-fixed">
+            <thead>
+              <tr>
+                <th className="col-1">Company ID</th>
+                <th className="col-2">Company Name</th>
+                <th className="col-1">Edit</th>
+                <th className="col-1">Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              {companies.map((company) => (
+                <tr key={company.id}>
+                  <td>{company.id}</td>
+                  <td >
                     {editingCompanyId === company.id ? (
                       <Form onSubmit={() => saveEditingCompany(company.id)}>
                         <FormGroup>
@@ -171,52 +193,54 @@ export const CompanyList = () => {
                             }
                           />
                         </FormGroup>
+                        <div>
+                          <Button
+                            color="secondary"
+                            onClick={cancelEditingCompany}
+                          >
+                            Cancel
+                          </Button>
+                          <Button
+                            color="primary"
+                            onClick={() => saveEditingCompany(company.id)}
+                            style={{
+                              marginLeft: "10px",
+                            }}
+                          >
+                            Save
+                          </Button>
+                        </div>
                       </Form>
                     ) : (
-                      <>
-                        <h2>{company.name}</h2>
-                        <Button
-                          color="primary"
-                          onClick={() =>
-                            startEditingCompany(company.id, company.name)
-                          }
-                        >
-                          Edit
-                        </Button>
-                      </>
+                      company.name
                     )}
-                  </CardBody>
-                  <CardFooter>
+
+                  </td>
+                  <td>
                     <Button
-                      color="danger"
+                      color="white"
+                      onClick={() =>
+                        startEditingCompany(company.id, company.name)
+                      }
+                    >
+                      Edit
+                    </Button>
+                  </td>
+                  <td>
+                    <Button
+                      color="white"
                       onClick={() => deleteCompany(company.id)}
                     >
                       Delete
                     </Button>
-                    {editingCompanyId === company.id && (
-                      <>
-                        <Button
-                          color="secondary"
-                          onClick={cancelEditingCompany}
-                        >
-                          Cancel
-                        </Button>
-                        <Button
-                          color="primary"
-                          onClick={() => saveEditingCompany(company.id)}
-                        >
-                          Save
-                        </Button>
-                      </>
-                    )}
-                  </CardFooter>
-                </Card>
-              </li>
-            ))}
-          </ul>
-          <hr />
-        </Col>
-      </Row>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </CardBody>
+
+      </Card>
     </Container>
   );
 };

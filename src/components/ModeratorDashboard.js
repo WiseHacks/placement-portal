@@ -1,23 +1,24 @@
 import { Alert } from 'bootstrap';
-import React, { useEffect,useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Navbar, Nav, NavItem, NavLink, Container } from 'reactstrap';
+import { Navbar, Nav, NavItem, NavLink, Container, Card, CardBody, Form, FormGroup, FormText, Label, Input, Button } from 'reactstrap';
 import './styles/Dashboard.css';
 import { doLogout, getCurrentUserDetail, isLoggedIn } from '../auth/index';
 import { toast } from 'react-toastify';
-import {ResumeCard} from './Resume'
-import {CompanyList} from './Company'
-import {  JobOpeningForm } from './JobOpeningModeratorAdd';
+import { ResumeCard } from './Resume'
+import { CompanyList } from './Company'
+import { JobOpeningForm } from './JobOpeningModeratorAdd';
 import { JobOpeningsList } from './JobOpeningModeratorView';
 import { JobOpeningEditor } from './JobOpeningModeratorEdit';
 import { JobApplications } from './JobApplicationModeratorView';
 import { EmailSendForm } from './ModeratorSendEmail';
+import { getUserByEmail, updateUser } from '../services/user-service';
 
 const ModeratorDashboard = () => {
     const [active, setActive] = useState('profile');
     const [showNavbar, setShowNavbar] = useState(true);
-    const [login,setLogin] = useState(false);
-    const [user,setUser] = useState(undefined);
+    const [login, setLogin] = useState(false);
+    const [user, setUser] = useState(undefined);
     const navigate = useNavigate();
 
     const handleNavItemClick = (item) => {
@@ -28,18 +29,50 @@ const ModeratorDashboard = () => {
         setShowNavbar(!showNavbar);
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         setLogin(isLoggedIn());
         setUser(getCurrentUserDetail());
-    },[login])
+    }, [login])
 
-    const signOut=()=>{
-        doLogout(()=>{
+    const signOut = () => {
+        doLogout(() => {
             setLogin(false);
             toast.success("Logged out !!");
             navigate("/")
         });
     }
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        let old_usr = getCurrentUserDetail();
+        old_usr.rollNo = event.target.elements.rollno.value;
+        old_usr.phoneNumber = event.target.elements.phone.value;
+        old_usr.college = event.target.elements.college.value;
+        old_usr.name = event.target.elements.name.value;
+        console.log('hello', old_usr);
+
+        updateUser(old_usr).then((resp) => {
+            toast.success("Updated Successfully");
+            // localStorage.removeItem("data");
+            // localStorage.setItem("data",JSON.stringify(resp));
+            // setUser(resp);
+            toast.success("Since user details updated, Please Login Again !!");
+            signOut();
+
+        }).catch((err) => {
+            console.log(err);
+        })
+
+
+        // console.log(event.target.elements.name.value);
+        // console.log(event.target.elements.email.value);
+        // console.log(event.target.elements.phone.value);
+        // console.log(event.target.elements.rollno.value);
+        // console.log(event.target.elements.college.value);
+        // Save updated form values
+        // setName(event.target.elements.name.value);
+        // setEmail(event.target.elements.email.value);
+        // setPhone(event.target.elements.phone.value);
+    };
 
     return (
         <div className="dashboard-wrapper">
@@ -137,7 +170,7 @@ const ModeratorDashboard = () => {
                                 </NavLink>
                             </NavItem> */}
                             <NavItem className="sidenav-item mt-auto">
-                                <NavLink href="#" onClick={signOut }>
+                                <NavLink href="#" onClick={signOut}>
                                     <i className="fas fa-sign-out-alt fa-lg mr-3"></i>
                                     Sign out
                                 </NavLink>
@@ -149,31 +182,76 @@ const ModeratorDashboard = () => {
 
             <div className="content-wrapper">
                 {active === 'profile' && (
-                    <div>
-                        <h1>Profile</h1>
-                        <p>Name : {user?.email.split('@')[0].toUpperCase()}</p>
-                        <p>Email : {user?.email}</p>
-                        <p>Phone : +91 8457459455</p>
-                        <p>Role : {user?.role[0]?.roleName}</p>
-                    </div>
+                    <Container className="d-flex justify-content-center align-items-center card-container">
+                        <Card className="card p-4 shadow" style={{
+                            overflow: "auto",
+                            width: "75vw",
+                            height: "95vh",
+                            // marginRight:"100px",
+                            // padding: "15rem",
+                            borderRadius: "2rem",
+                            boxShadow: "0 0 50px 0 rgba(1, 0, 0, 1);",
+                        }}>
+                            <CardBody>
+                                <h1 style={{
+                                    color: "#7a92eb",
+                                }}>My Profile</h1>
+                                <Form onSubmit={handleSubmit}>
+                                    <FormGroup>
+                                        <Label for="name">Name</Label>
+                                        <Input type="text" name="name" id="name" defaultValue={user?.name} />
+                                        <FormText color="muted">
+                                            Change your full name (e.g. Divyesh Rana)
+                                        </FormText>
+                                    </FormGroup>
+                                    <FormGroup>
+                                        <Label for="email">Email</Label>
+                                        <Input type="email" name="email" id="email" defaultValue={user?.email} disabled />
+                                    </FormGroup>
+                                    <FormGroup>
+                                        <Label for="phone">Phone</Label>
+                                        <Input type="text" name="phone" id="phone" defaultValue={user?.phoneNumber} disabled={user?.phoneNumber != null} />
+                                    </FormGroup>
+                                    <FormGroup>
+                                        <Label for="college">College/University</Label>
+                                        <Input type="text" name="college" id="college" defaultValue={user?.college} />
+                                        <FormText color="muted">
+                                            Change your college (e.g. IIIT Allahabad)
+                                        </FormText>
+                                    </FormGroup>
+
+                                    <FormGroup>
+                                        <Label for="rollno">Roll number</Label>
+                                        <Input type="text" name="rollno" id="rollno" defaultValue={user?.rollNo} />
+                                        <FormText color="muted">
+                                            Change your roll no. (e.g. IIT2019063)
+                                        </FormText>
+                                    </FormGroup>
+                                    <div className="d-flex justify-content-center">
+                                        <Button type="submit" className="mt-3 btn-lg">Update</Button>
+                                    </div>
+                                </Form>
+                            </CardBody>
+                        </Card>
+                    </Container>
                 )}
                 {active === 'company' && (
-                    <CompanyList/>
+                    <CompanyList />
                 )}
                 {active === 'jobopenings' && (
-                    <JobOpeningForm/>
+                    <JobOpeningForm />
                 )}
                 {active === 'viewjobopenings' && (
-                    <JobOpeningsList/>
+                    <JobOpeningsList />
                 )}
                 {active === 'editjobopening' && (
-                    <JobOpeningEditor/>
+                    <JobOpeningEditor />
                 )}
                 {active === 'viewapplications' && (
-                    <JobApplications/>
+                    <JobApplications />
                 )}
                 {active === 'sendemail' && (
-                <EmailSendForm/>
+                    <EmailSendForm />
                 )}
                 {/* {active === 'myresume' && (
                     <ResumeCard/>
