@@ -8,6 +8,8 @@ import { toast } from 'react-toastify';
 import {ResumeCard} from './Resume'
 import {JobOpeningsTable} from './JobOpeningStudentView'
 import { MyApplications } from './MyApplicationsViewStudent';
+import { StudentPlacementStatus } from './StudentPlacementStatus';
+import { StudentPlacementTable } from './PlacementStats';
 
 const StudentDashboard = () => {
     const [active, setActive] = useState('profile');
@@ -25,6 +27,7 @@ const StudentDashboard = () => {
     }
 
     useEffect(()=>{
+        
         setLogin(isLoggedIn());
         setUser(getCurrentUserDetail());
     },[login])
@@ -102,6 +105,16 @@ const StudentDashboard = () => {
                                     Placement Status
                                 </NavLink>
                             </NavItem>
+                            <NavItem className="sidenav-item">
+                                <NavLink
+                                    href="#"
+                                    onClick={() => handleNavItemClick('placementstats')}
+                                    className={active === 'placementstats' ? 'active' : ''}
+                                >
+                                    <i className="fas fa-cog fa-lg mr-3"></i>
+                                    Placement Statistics
+                                </NavLink>
+                            </NavItem>
                             <NavItem className="sidenav-item mt-auto">
                                 <NavLink href="#" onClick={signOut }>
                                     <i className="fas fa-sign-out-alt fa-lg mr-3"></i>
@@ -145,10 +158,10 @@ const StudentDashboard = () => {
                     // </div>
                 )}
                 {active === 'placementstatus' && (
-                    <div>
-                        <h1>Placement Status</h1>
-                        <p>All placed</p>
-                    </div>
+                    <StudentPlacementStatus userEmail={user.email} />
+                )}
+                 {active === 'placementstats' && (
+                    <StudentPlacementTable />
                 )}
             </div>
         </div>
