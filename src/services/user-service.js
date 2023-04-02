@@ -16,7 +16,7 @@ export const signUp=(user)=>{
     }
     return myAxios.post('/user/',UserDto).then((response)=> response.data);
 }
- 
+
 export const logIn=(user)=>{
     const JwtRequest = {
         userName:user.email,

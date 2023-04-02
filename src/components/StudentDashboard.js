@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import {ResumeCard} from './Resume'
 import {JobOpeningsTable} from './JobOpeningStudentView'
 import { MyApplications } from './MyApplicationsViewStudent';
+import { getUserByEmail } from '../services/user-service';
 
 const StudentDashboard = () => {
     const [active, setActive] = useState('profile');
@@ -27,6 +28,12 @@ const StudentDashboard = () => {
     useEffect(()=>{
         setLogin(isLoggedIn());
         setUser(getCurrentUserDetail());
+        const fetchUserDetails = async ()=>{
+            const response = await getUserByEmail(getCurrentUserDetail().email);
+            console.log(response);
+            setUser(response);
+        }
+        fetchUserDetails();
     },[login])
 
     const signOut=()=>{
@@ -121,6 +128,7 @@ const StudentDashboard = () => {
                         <p>Email : {user?.email}</p>
                         <p>Phone : +91 8457459455</p>
                         <p>Role : {user?.role[0]?.roleName}</p>
+                        <p>College: {user?.college}</p>
                     </div>
                 )}
                 {active === 'jobopenings' && (

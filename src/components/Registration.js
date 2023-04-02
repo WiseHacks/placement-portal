@@ -111,16 +111,16 @@ const Signup = () => {
           height: "70vh",
           backgroundColor: "rgba(255,255,255,0.85)",
           borderRadius: "50px",
-          overflow: "auto",
+          overflow: "auto"
         }}
       >
-        <div className="d-flex flex-column justify-content-center h-100">
+        <div className="d-flex flex-column justify-content-center h-100" >
           <div className="d-flex justify-content-center align-items-center mb-3">
             <img
               src={require("./logo/logo_new.png")}
               alt="Logo"
               className="mr-2"
-              style={{ width: "400px" }}
+              style={{ width: "400px" , marginTop:"15rem"}}
             />
           </div>
           <Form className="form-container">
@@ -198,6 +198,11 @@ const Signup = () => {
                       </Button>
                     </Container>
                   </Form>
+                  <div style={{
+                    height:"100px"
+                  }}>
+                  &nbsp;
+                  </div>
         </div>
                   
       </div>

@@ -63,7 +63,9 @@ const RoleSelection = () => {
   };
 
   if (isLoggedIn()) {
-    toast.success("Already logged in !!");
+    toast.success("Already logged in !!", {
+      toastId: "alreadyLoggedIn"
+    });
     if (user?.role[0]?.roleName === "STUDENT") {
       console.log("here");
       navigate("/student/dashboard");
@@ -148,7 +150,7 @@ const RoleSelection = () => {
               src={require("./logo/logo_new.png")}
               alt="Logo"
               className="mr-2"
-              style={{ width: "400px", marginTop: "1rem" }}
+              style={{ width: "400px", marginTop: "15rem" }}
             />
           </div>
           {/* <h3 className="text-center mb-3 discord-text">Sign In</h3> */}
