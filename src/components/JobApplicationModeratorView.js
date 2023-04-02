@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { FormGroup, Label, Input, Button, Table } from 'reactstrap';
+import { FormGroup, Label, Input, Button, Table,InputGroup,InputGroupText } from 'reactstrap';
 import axios from 'axios';
-import { getAllApplicationsForJobOpening,updateJobApplication } from '../services/job-application-service';
+import { getAllApplicationsForJobOpening,searchJobApplication,updateJobApplication } from '../services/job-application-service';
 import { getAllJobOpenings } from '../services/job-opening-service';
 import {toast} from 'react-toastify'
 
@@ -11,6 +11,7 @@ export const JobApplications = () => {
   const [selectedApplication, setSelectedApplication] = useState(null);
   const [status, setStatus] = useState('');
   const [jobOpenings,setJobOpenings] = useState([]);
+  const [searchText, setSearchText] = useState('');
 
   useEffect(() => {
     const fetchJobApplications = async () => {
@@ -53,6 +54,25 @@ export const JobApplications = () => {
     setStatus(event.target.value);
   };
 
+  const handleSearch = async() => {
+    const resp = await searchJobApplication(searchText);
+    let arr = [];
+    resp.forEach((a)=>{
+      if(a.jobOpening.id == selectedJobId)arr.push(a);
+    })
+    setJobApplications(arr);
+  }
+
+  const handleSearchInputChange = (e) => {
+    setSearchText(e.target.value);
+  };
+  
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
   const handleUpdateStatus = async () => {
     // const response = await axios.patch(`/api/jobApplications/${selectedApplication.id}`, {
     //   status: status,
@@ -80,6 +100,20 @@ export const JobApplications = () => {
       </FormGroup>
 
       {jobApplications.length > 0 && (
+        <>
+            <InputGroup>
+    <Input
+      placeholder="Enter Search query"
+      value={searchText}
+      onChange={handleSearchInputChange}
+      onKeyPress={handleKeyPress}
+    />
+    <InputGroupText addonType="append">
+      <Button color="primary" onClick={handleSearch}>
+        Search
+      </Button>
+    </InputGroupText>
+  </InputGroup>
         <Table>
           <thead>
             <tr>
@@ -110,6 +144,7 @@ export const JobApplications = () => {
             ))}
           </tbody>
         </Table>
+        </>
       )}
 
       {selectedApplication && (

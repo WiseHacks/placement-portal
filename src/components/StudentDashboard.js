@@ -9,6 +9,9 @@ import {ResumeCard} from './Resume'
 import {JobOpeningsTable} from './JobOpeningStudentView'
 import { MyApplications } from './MyApplicationsViewStudent';
 import { getUserByEmail } from '../services/user-service';
+import { StudentPlacementStatus } from './StudentPlacementStatus';
+import { StudentPlacementTable } from './PlacementStats';
+// import { SearchBar } from './Search';
 
 const StudentDashboard = () => {
     const [active, setActive] = useState('profile');
@@ -26,6 +29,7 @@ const StudentDashboard = () => {
     }
 
     useEffect(()=>{
+        
         setLogin(isLoggedIn());
         setUser(getCurrentUserDetail());
         const fetchUserDetails = async ()=>{
@@ -78,6 +82,16 @@ const StudentDashboard = () => {
                                     Job openings
                                 </NavLink>
                             </NavItem>
+                            {/* <NavItem className="sidenav-item">
+                                <NavLink
+                                    href="#"
+                                    onClick={() => handleNavItemClick('search')}
+                                    className={active === 'search' ? 'active' : ''}
+                                >
+                                    <i className="fas fa-cog fa-lg mr-3"></i>
+                                    Search
+                                </NavLink>
+                            </NavItem> */}
 
                             <NavItem className="sidenav-item">
                                 <NavLink
@@ -107,6 +121,16 @@ const StudentDashboard = () => {
                                 >
                                     <i className="fas fa-cog fa-lg mr-3"></i>
                                     Placement Status
+                                </NavLink>
+                            </NavItem>
+                            <NavItem className="sidenav-item">
+                                <NavLink
+                                    href="#"
+                                    onClick={() => handleNavItemClick('placementstats')}
+                                    className={active === 'placementstats' ? 'active' : ''}
+                                >
+                                    <i className="fas fa-cog fa-lg mr-3"></i>
+                                    Placement Statistics
                                 </NavLink>
                             </NavItem>
                             <NavItem className="sidenav-item mt-auto">
@@ -153,11 +177,14 @@ const StudentDashboard = () => {
                     // </div>
                 )}
                 {active === 'placementstatus' && (
-                    <div>
-                        <h1>Placement Status</h1>
-                        <p>All placed</p>
-                    </div>
+                    <StudentPlacementStatus userEmail={user.email} />
                 )}
+                 {active === 'placementstats' && (
+                    <StudentPlacementTable />
+                )}
+                 {/* {active === 'search' && (
+                    <SearchBar />
+                )} */}
             </div>
         </div>
     );

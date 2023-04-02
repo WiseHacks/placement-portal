@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getAllJobOpenings } from "../services/job-opening-service";
+import { getAllJobOpenings, searchJobOpening } from "../services/job-opening-service";
 import {
   Table,
   Button,
@@ -11,21 +11,26 @@ import {
   FormGroup,
   Label,
   Input,
+  InputGroup, InputGroupText
 } from "reactstrap";
 import { getCurrentUserDetail } from "../auth";
 import { applyToJobOpening, getAllApplicationsForUser } from "../services/job-application-service";
 import {toast} from 'react-toastify';
+import { getMyPlacementStatus } from "../services/placement-status-service";
 
 export const JobOpeningsTable = () => {
   const [jobOpenings, setJobOpenings] = useState([]);
   const [modal, setModal] = useState(false);
   const [selectedJobOpening, setSelectedJobOpening] = useState({});
   const [myApplications,setMyApplications] = useState([]);
+  const [placementStatus, setPlacementStatus] = useState(null);
   const [applicantData, setApplicantData] = useState({
     name: getCurrentUserDetail().email.split('@')[0].toUpperCase(),
     email: getCurrentUserDetail().email,
     status:"NOT_APPLIED",
   });
+  const [searchText, setSearchText] = useState('');
+
 
   // Fetch job openings from backend API on component mount
   useEffect(() => {
@@ -59,7 +64,47 @@ export const JobOpeningsTable = () => {
         setMyApplications(response);
     }
     fetchMyApplications();
+
+    const fetchData = async () => {
+      const response = await getMyPlacementStatus(getCurrentUserDetail().email);
+      console.log(response);
+      setPlacementStatus(response);
+    };
+    fetchData();
+
+
   }, []);
+
+  
+
+  const handleSearch = async() => {
+   const resp = await searchJobOpening(searchText);
+   const njo = []
+    resp.forEach((jobOpeningDto)=>{
+        njo.push({
+            jobId:jobOpeningDto?.id,
+            jobDescription:jobOpeningDto?.jobDescription,
+            postedBy:jobOpeningDto?.user?.email,
+            cgpaCutoff:jobOpeningDto?.cgpaCutoff,
+            companyName:jobOpeningDto?.company?.companyName,
+            jobProfile:jobOpeningDto?.jobProfile,
+            companyId:jobOpeningDto?.company?.id,
+            userPosted:jobOpeningDto?.user
+        })
+    })
+    console.log(njo)
+    setJobOpenings(njo);
+  };
+
+  const handleSearchInputChange = (e) => {
+    setSearchText(e.target.value);
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
 
   const fetchJobOpenings = async () => {
     //   const response = await fetch("https://example.com/job-openings");
@@ -105,6 +150,8 @@ export const JobOpeningsTable = () => {
 //   };
 
 const isDisabled = (jobOpening)=>{
+
+    if(placementStatus?.isPlaced)return true;
     let isdis = false;
     myApplications.forEach((application)=>{
         if(application.jobOpening.id == jobOpening.jobId){
@@ -147,6 +194,20 @@ const isDisabled = (jobOpening)=>{
   };
 
   return (
+    <>
+    <InputGroup>
+    <Input
+      placeholder="Enter Search query"
+      value={searchText}
+      onChange={handleSearchInputChange}
+      onKeyPress={handleKeyPress}
+    />
+    <InputGroupText addonType="append">
+      <Button color="primary" onClick={handleSearch}>
+        Search
+      </Button>
+    </InputGroupText>
+  </InputGroup>
     <div>
       <h1>Job Openings</h1>
       <Table striped>
@@ -233,5 +294,6 @@ const isDisabled = (jobOpening)=>{
         </ModalFooter>
       </Modal>
       </div>
+      </>
   )}
            
