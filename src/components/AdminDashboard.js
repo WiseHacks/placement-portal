@@ -119,7 +119,7 @@ const AdminDashboard = () => {
                                     Company
                                 </NavLink>
                             </NavItem>
-                            <NavItem className="sidenav-item">
+                            {/* <NavItem className="sidenav-item">
                                 <NavLink
                                     href="#"
                                     onClick={() => handleNavItemClick('jobopenings')}
@@ -128,7 +128,7 @@ const AdminDashboard = () => {
                                     <i className="far fa-user-circle fa-lg mr-3"></i>
                                     Post Job opening
                                 </NavLink>
-                            </NavItem>
+                            </NavItem> */}
 
                             <NavItem className="sidenav-item">
                                 <NavLink
@@ -160,7 +160,7 @@ const AdminDashboard = () => {
                                     View Applications
                                 </NavLink>
                             </NavItem>
-                            <NavItem className="sidenav-item">
+                            {/* <NavItem className="sidenav-item">
                                 <NavLink
                                     href="#"
                                     onClick={() => handleNavItemClick('sendemail')}
@@ -169,7 +169,7 @@ const AdminDashboard = () => {
                                     <i className="far fa-user-circle fa-lg mr-3"></i>
                                     Send Email
                                 </NavLink>
-                            </NavItem>
+                            </NavItem> */}
                             {/* <NavItem className="sidenav-item">
                                 <NavLink
                                     href="#"

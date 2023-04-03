@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Input, Button } from 'reactstrap';
+import { Input, Button, Container, Card, CardBody } from 'reactstrap';
 import axios from 'axios';
 import { makeModerator } from '../services/email-service';
 import {toast} from 'react-toastify'
@@ -26,15 +26,38 @@ export const MakeModForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <div>
+      <Container className="d-flex justify-content-center align-items-center card-container">
+        <Card className="card p-4 shadow" style={{
+          overflow: "auto",
+          width: "75vw",
+          // height: "95vh",
+          borderRadius: "2rem",
+          boxShadow: "0 0 10px 0 rgba(1, 0, 0, 1);",
+        }}>
+          <CardBody>
+            <h1 style={{
+              color: "#7a92eb",
+            }}>Mod update</h1>
+            <form onSubmit={handleSubmit}>
       <Input
         type="email"
         placeholder="Enter student email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
-      <Button type="submit">Confirm</Button>
+      <div className='d-flex justify-content-center'>
+      <Button color='' type="submit" style={{
+        marginTop: "1rem",
+      }}>Make Placement Moderator</Button>
+      </div>
+      
     </form>
+          </CardBody>
+        </Card>
+      </Container>
+    </div>
+    
   );
 };
 
