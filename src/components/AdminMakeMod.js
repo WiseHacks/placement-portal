@@ -12,6 +12,7 @@ export const MakeModForm = () => {
 
     makeModerator(email).then((resp)=>{
         toast.success("Success !!");
+        setEmail('');
         
     }).catch((err) => {
         console.log(err);
