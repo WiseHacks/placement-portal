@@ -73,6 +73,9 @@ const RoleSelection = () => {
     else if(user?.role[0]?.roleName === "MODERATOR"){
       navigate("/moderator/dashboard");
     }
+    else{
+      navigate("/admin/dashboard");
+    }
   }
 
   const handleSubmit = (event) => {

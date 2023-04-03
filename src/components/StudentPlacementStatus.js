@@ -38,9 +38,13 @@ export const StudentPlacementStatus = ({ userEmail }) => {
             <div>
               {placementStatus ? (
                 <>
-                  <CardSubtitle>
-                    {placementStatus.isPlaced ? 'You are placed' : 'Not Placed Yet'}
-                  </CardSubtitle>
+                <CardTitle>
+                {placementStatus.isPlaced ? <h1 style={{
+                  color: "green",
+                }}>You are placed</h1> : <h1 style={{
+                  color: "red",
+                }}>Not Placed Yet</h1>}
+                </CardTitle>
                   {placementStatus.isPlaced && (
                     <>
                       <p>Name: {placementStatus?.placedJobApplication?.user?.name != null ? placementStatus?.placedJobApplication?.user?.name  : "N/A"}</p>

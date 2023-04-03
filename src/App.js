@@ -26,6 +26,9 @@ const App = () => {
           <Route path="/moderator" element={<PrivateRoute />} >
             <Route path="dashboard" element={<ModeratorDashboard />} />
           </Route>
+          <Route path="/admin" element={<PrivateRoute />} >
+            <Route path="dashboard" element={<AdminPage />} />
+          </Route>
         </Routes>
       </Router>
     </div>
