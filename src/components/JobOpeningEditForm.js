@@ -44,7 +44,7 @@ export const JobOpeningForm = ({ jobOpening, onSubmit }) => {
       </FormGroup>
       <FormGroup>
         <Label for="jobDescription">Job Description:</Label>
-        <Input type="text" name="jobDescription" id="jobDescription" value={jobDescription} onChange={(event) => setJobDescription(event.target.value)} required />
+        <Input type="textarea" name="jobDescription" style={{height:"200px"}} id="jobDescription" value={jobDescription} onChange={(event) => setJobDescription(event.target.value)} required />
       </FormGroup>
       <FormGroup>
         <Label for="jobProfile">Job Profile:</Label>

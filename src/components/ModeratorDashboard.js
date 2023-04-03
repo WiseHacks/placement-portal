@@ -133,10 +133,10 @@ const ModeratorDashboard = () => {
                             <NavItem className="sidenav-item">
                                 <NavLink
                                     href="#"
-                                    onClick={() => handleNavItemClick('editjobopening')}
+                                    onClick={() => handleNavItemClick('editjobopenings')}
                                     className={active === 'editjobopenings' ? 'active' : ''}
                                 >
-                                    <i className="far fa-file-alt fa-lg mr-3"></i>
+                                    <i className="far fa-user-circle fa-lg mr-3"></i>
                                     Edit Job Opening
                                 </NavLink>
                             </NavItem>
@@ -255,7 +255,7 @@ const ModeratorDashboard = () => {
                 {active === 'viewjobopenings' && (
                     <JobOpeningsList />
                 )}
-                {active === 'editjobopening' && (
+                {active === 'editjobopenings' && (
                     <JobOpeningEditor />
                 )}
                 {active === 'viewapplications' && (
