@@ -108,6 +108,9 @@ const RoleSelection = () => {
                 else if(data.user?.role[0]?.roleName === "MODERATOR"){
                   navigate("/moderator/dashboard");
                 }
+                else{
+                  navigate("/admin/dashboard");
+                }
               });
 
               toast.success("Logged in successfully !!");

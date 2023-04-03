@@ -27,6 +27,7 @@ export const ResumeUpdateForm = ({ resume, onUpdate }) => {
       cgpa,
       socialProfiles
     };
+    console.log('here',updatedResume);
     onUpdate(updatedResume);
   };
 

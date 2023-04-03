@@ -44,7 +44,7 @@ export const ResumeDisplay = ({ resume, isLoading }) => {
                       <td>{resume?.workExperience?.join(',\n')}</td>
                     </tr>
                     <tr>
-                      <td>Education:</td>
+                      <td>Socials:</td>
                       <td>{resume?.socialProfiles?.join(',\n')}</td>
                     </tr>
                     <tr>

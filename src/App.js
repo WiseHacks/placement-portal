@@ -10,6 +10,7 @@ import Registration from "./components/Registration";
 import StudentDashboard from "./components/StudentDashboard";
 import PrivateRoute from "./components/PrivateRoute";
 import ModeratorDashboard from "./components/ModeratorDashboard";
+import AdminDashboard from "./components/AdminDashboard";
 const App = () => {
   return (
     <div>
@@ -27,7 +28,7 @@ const App = () => {
             <Route path="dashboard" element={<ModeratorDashboard />} />
           </Route>
           <Route path="/admin" element={<PrivateRoute />} >
-            <Route path="dashboard" element={<AdminPage />} />
+            <Route path="dashboard" element={<AdminDashboard />} />
           </Route>
         </Routes>
       </Router>
