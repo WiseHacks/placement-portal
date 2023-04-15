@@ -74,6 +74,11 @@ const ModeratorDashboard = () => {
         // setEmail(event.target.elements.email.value);
         // setPhone(event.target.elements.phone.value);
     };
+    if(user?.role[0]?.roleName != 'MODERATOR'){
+        return (<>
+        <div>Not authorized</div>
+        </>)
+    }
 
     return (
         <div className="dashboard-wrapper">

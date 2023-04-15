@@ -80,6 +80,11 @@ const StudentDashboard = () => {
         // setEmail(event.target.elements.email.value);
         // setPhone(event.target.elements.phone.value);
     };
+    if(user?.role[0]?.roleName != 'STUDENT'){
+        return (<>
+        <div>Not authorized</div>
+        </>)
+    }
 
     return (
         <div className="dashboard-wrapper">
