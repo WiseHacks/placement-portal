@@ -19,3 +19,7 @@ export const deleteCompanyToDb=(companyId)=>{
 export const editCompanyToDb=(companyDto)=>{
     return privateAxios.put('/company/'+companyDto.id,companyDto).then((response)=>response.data);
 }
+
+export const getCompanyStats=()=>{
+    return privateAxios.get('/company/stats').then((response)=>response.data);
+}
