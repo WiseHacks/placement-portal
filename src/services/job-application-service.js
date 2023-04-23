@@ -44,5 +44,11 @@ export const searchJobApplication=(query)=>{
     return privateAxios.get('/job-application/search/'+query).then((response)=>response.data);
 }
 
+export const batchUpdateApplications=(formData,jobId,oldStatus,newStatus)=>{
+    return privateAxios.post('/job-application/update/status/batch/'+jobId+'/'+oldStatus+'/'+newStatus,formData,{
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },}).then((response)=> response.data);
+}
 
 

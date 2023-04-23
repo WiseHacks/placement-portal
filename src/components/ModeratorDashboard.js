@@ -14,6 +14,7 @@ import { JobApplications } from './JobApplicationModeratorView';
 import { EmailSendForm } from './ModeratorSendEmail';
 import { StudentPlacementTable } from './PlacementStats';
 import { getUserByEmail, updateUser } from '../services/user-service';
+import { ModeratorBatchUpdateStatus } from './BatchStatusChange';
 
 const ModeratorDashboard = () => {
     const [active, setActive] = useState('profile');
@@ -158,6 +159,16 @@ const ModeratorDashboard = () => {
                             <NavItem className="sidenav-item">
                                 <NavLink
                                     href="#"
+                                    onClick={() => handleNavItemClick('statuschange')}
+                                    className={active === 'statuschange' ? 'active' : ''}
+                                >
+                                    <i className="fas fa-cog fa-lg mr-3"></i>
+                                   Batch Update Application Status
+                                </NavLink>
+                                </NavItem>
+                            <NavItem className="sidenav-item">
+                                <NavLink
+                                    href="#"
                                     onClick={() => handleNavItemClick('sendemail')}
                                     className={active === 'sendemail' ? 'active' : ''}
                                 >
@@ -265,6 +276,9 @@ const ModeratorDashboard = () => {
                 )}
                 {active === 'viewapplications' && (
                     <JobApplications />
+                )}
+                {active === 'statuschange' && (
+                    <ModeratorBatchUpdateStatus />
                 )}
                 {active === 'sendemail' && (
                     <EmailSendForm />
