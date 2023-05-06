@@ -15,6 +15,8 @@ import { EmailSendForm } from './ModeratorSendEmail';
 import { StudentPlacementTable } from './PlacementStats';
 import { getUserByEmail, updateUser } from '../services/user-service';
 import { ModeratorBatchUpdateStatus } from './BatchStatusChange';
+import InterviewPlanForm from './InterviewSchedulingForm';
+import InterviewPlanner from './InterviewSchedulingForm';
 
 const ModeratorDashboard = () => {
     const [active, setActive] = useState('profile');
@@ -75,9 +77,9 @@ const ModeratorDashboard = () => {
         // setEmail(event.target.elements.email.value);
         // setPhone(event.target.elements.phone.value);
     };
-    if(user?.role[0]?.roleName != 'MODERATOR'){
+    if (user?.role[0]?.roleName != 'MODERATOR') {
         return (<>
-        <div>Not authorized</div>
+            <div>Not authorized</div>
         </>)
     }
 
@@ -163,9 +165,9 @@ const ModeratorDashboard = () => {
                                     className={active === 'statuschange' ? 'active' : ''}
                                 >
                                     <i className="fas fa-cog fa-lg mr-3"></i>
-                                   Batch Update Application Status
+                                    Batch Update Application Status
                                 </NavLink>
-                                </NavItem>
+                            </NavItem>
                             <NavItem className="sidenav-item">
                                 <NavLink
                                     href="#"
@@ -174,6 +176,16 @@ const ModeratorDashboard = () => {
                                 >
                                     <i className="far fa-user-circle fa-lg mr-3"></i>
                                     Send Email
+                                </NavLink>
+                            </NavItem>
+                            <NavItem className="sidenav-item">
+                                <NavLink
+                                    href="#"
+                                    onClick={() => handleNavItemClick('scheduleinterviews')}
+                                    className={active === 'scheduleinterviews' ? 'active' : ''}
+                                >
+                                    <i className="far fa-user-circle fa-lg mr-3"></i>
+                                    Schedule Interviews
                                 </NavLink>
                             </NavItem>
                             {/* <NavItem className="sidenav-item">
@@ -249,7 +261,7 @@ const ModeratorDashboard = () => {
 
                                     <FormGroup>
                                         <Label for="rollno">Roll number</Label>
-                                        <Input type="text" name="rollno" id="rollno" defaultValue={user?.rollNo} />
+                                        <Input type="text" name="rollno" id="rollno" defaultValue={user?.rollNo} disabled={user?.phoneNumber != null} />
                                         <FormText color="muted">
                                             Change your roll no. (e.g. IIT2019063)
                                         </FormText>
@@ -286,6 +298,11 @@ const ModeratorDashboard = () => {
                 {active === 'placementstats' && (
                     <StudentPlacementTable />
                 )}
+                {active === 'scheduleinterviews' && (
+                    <InterviewPlanner />
+                )}
+
+
                 {/* {active === 'myresume' && (
                     <ResumeCard/>
                     // <div>
@@ -299,6 +316,7 @@ const ModeratorDashboard = () => {
                         <p>All placed</p>
                     </div>
                 )} */}
+
             </div>
         </div>
     );
