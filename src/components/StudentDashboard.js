@@ -11,6 +11,8 @@ import { MyApplications } from './MyApplicationsViewStudent';
 import { getUserByEmail, updateUser } from '../services/user-service';
 import { StudentPlacementStatus } from './StudentPlacementStatus';
 import { StudentPlacementTable } from './PlacementStats';
+import { ScheduledInterviews } from './ShowInterviewStudent';
+import { getMyInterviews } from '../services/interview-service';
 
 // import { SearchBar } from './Search';
 
@@ -19,6 +21,7 @@ const StudentDashboard = () => {
     const [showNavbar, setShowNavbar] = useState(true);
     const [login, setLogin] = useState(false);
     const [user, setUser] = useState(undefined);
+    const [interviews,setInterviews] = useState(null);
     const navigate = useNavigate();
 
     const handleNavItemClick = (item) => {
@@ -27,6 +30,13 @@ const StudentDashboard = () => {
 
     const toggleNavbar = () => {
         setShowNavbar(!showNavbar);
+    }
+    if(interviews == null){
+        getMyInterviews().then((data)=>{
+            setInterviews(data);
+        }).catch((err) => {
+            console.log(err);
+        })
     }
 
     useEffect(() => {
@@ -154,6 +164,16 @@ const StudentDashboard = () => {
                             <NavItem className="sidenav-item">
                                 <NavLink
                                     href="#"
+                                    onClick={() => handleNavItemClick('scheduledinterviews')}
+                                    className={active === 'scheduledinterviews' ? 'active' : ''}
+                                >
+                                    <i className="fas fa-cog fa-lg mr-3"></i>
+                                    My Scheduled Interviews
+                                </NavLink>
+                            </NavItem>
+                            <NavItem className="sidenav-item">
+                                <NavLink
+                                    href="#"
                                     onClick={() => handleNavItemClick('placementstatus')}
                                     className={active === 'placementstatus' ? 'active' : ''}
                                 >
@@ -217,7 +237,7 @@ const StudentDashboard = () => {
                                     </FormGroup>
                                     <FormGroup>
                                         <Label for="college">College/University</Label>
-                                        <Input type="text" name="college" id="college" defaultValue={user?.college}/>
+                                        <Input type="text" name="college" id="college" defaultValue={user?.college} disabled={user?.college != null}/>
                                         <FormText color="muted">
                                             Change your college (e.g. IIIT Allahabad)
                                         </FormText>
@@ -225,7 +245,7 @@ const StudentDashboard = () => {
 
                                     <FormGroup>
                                         <Label for="rollno">Roll number</Label>
-                                        <Input type="text" name="rollno" id="rollno" defaultValue={user?.rollNo} />
+                                        <Input type="text" name="rollno" id="rollno" defaultValue={user?.rollNo} disabled={user?.rollNo != null} />
                                         <FormText color="muted">
                                             Change your roll no. (e.g. IIT2019063)
                                         </FormText>
@@ -265,9 +285,9 @@ const StudentDashboard = () => {
                 {active === 'placementstats' && (
                     <StudentPlacementTable />
                 )}
-                {/* {active === 'search' && (
-                    <SearchBar />
-                )} */}
+                {active === 'scheduledinterviews' && (
+                    <ScheduledInterviews interviews={interviews} />
+                )}
             </div>
         </div>
     );

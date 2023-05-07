@@ -15,6 +15,8 @@ import {
 } from "reactstrap";
 import { getAllApplicationsForJobOpening, searchJobApplication, updateJobApplication } from '../services/job-application-service';
 import { getAllJobOpenings } from '../services/job-opening-service';
+import { getInterviewPlan } from "../services/interview-service";
+import { InterviewTable } from "./ShowInterviewSchedules";
 
 
 const InterviewPlanner = () => {
@@ -25,6 +27,7 @@ const InterviewPlanner = () => {
     const [jobOpenings, setJobOpenings] = useState([]);
     const [plans, setPlans] = useState([]);
     const [showToast, setShowToast] = useState(false);
+    const [interviews,setInterviews] = useState(null);
 
     const [currentPlan, setCurrentPlan] = useState({
         date: "",
@@ -69,7 +72,7 @@ const InterviewPlanner = () => {
 
 
     const handleInputChange = (event) => {
-        const { name, value } = event.target;
+        let { name, value } = event.target;
       
         // convert start and end time inputs to 24 hrs format
         if (name === "startTime" || name === "endTime") {
@@ -81,6 +84,7 @@ const InterviewPlanner = () => {
         }
       
         setCurrentPlan({ ...currentPlan, [name]: value });
+        console.log(currentPlan)
       };
 
     const handleAddPlan = () => {
@@ -108,6 +112,24 @@ const InterviewPlanner = () => {
         });
     };
 
+    function convertDateTime(dateTimeStr) {
+        const dateTimeArr = dateTimeStr.split(' ');
+        const date = dateTimeArr[0];
+        const time = dateTimeArr[1] + ' ' + dateTimeArr[2];
+        const [year, month, day] = date.split('-');
+        const [hour, minute] = time.split(/:| /);
+        let newHour = hour;
+        if (time.includes('PM') && hour !== '12') {
+          newHour = String(Number(hour) + 12);
+        } else if (time.includes('AM') && hour === '12') {
+          newHour = '00';
+        }
+        const newTime = newHour + ':' + minute + ':00.000';
+        const isoDateTime = `${year}-${month}-${day}T${newTime}`;
+        return isoDateTime;
+      }
+      
+
 
     const handleRemovePlan = (index) => {
         const updatedPlans = [...plans];
@@ -124,6 +146,35 @@ const InterviewPlanner = () => {
             }, 3000);
             return;
         }
+        console.log("hi");
+        let interviewPlanDto = []
+        for(let i=0;i<plans.length;i++) {
+            let o = plans[i];
+            let st = convertDateTime(o.date+' '+o.startTime)
+            let en = convertDateTime(o.date+' '+o.endTime)
+            console.log(o);
+            let cur = {
+                "date":o.date,
+                "interval":{
+                    "start":st,
+                    "end":en
+                },
+                "numberOfInterviewers":parseInt(o.numInterviewers),
+                "interviewDuration":parseInt(o.duration)
+            }
+            console.log(cur)
+            interviewPlanDto.push(cur)
+        }
+        let fin = {
+            "interviewPlanList":interviewPlanDto
+        }
+        console.log(interviewPlanDto);
+        getInterviewPlan(selectedJobId,fin).then((data)=>{
+            console.log(data);
+            setInterviews(data);
+        }).catch((err)=>{
+            console.log(err);
+        })
 
         setShowToast(false);
     };
@@ -251,6 +302,9 @@ const InterviewPlanner = () => {
                     </Toast>
                 </Col>
             </Row>
+            {interviews == null?<></>:
+            <InterviewTable interviews = {interviews} jobId = {selectedJobId}></InterviewTable>
+            }
         </Container>
     );
 
