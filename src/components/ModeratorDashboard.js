@@ -106,6 +106,7 @@ const ModeratorDashboard = () => {
                                     <i className="far fa-user-circle fa-lg mr-3"></i>
                                     Profile
                                 </NavLink>
+                                
                             </NavItem>
                             <NavItem className="sidenav-item">
                                 <NavLink
