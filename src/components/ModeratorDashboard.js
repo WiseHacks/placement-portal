@@ -89,17 +89,18 @@ const ModeratorDashboard = () => {
                 <div className="sidenav">
                     <Navbar className="navbar-light">
                         <Nav vertical >
-                            <NavItem className="sidenav-item">
-                                <img
+                            <NavItem className="sidenav-item" style={{ marginRight: "1rem", marginBottom: "3rem" }}>
+                                {/* <img
                                     src={require("./logo/logo_new.png")}
                                     alt="Logo"
                                     className="mr-2"
                                     style={{ width: "200px", marginTop: "1rem", marginBottom: "3rem" }}
-                                />
+                                /> */}
+                                <h1 style={{"color": "black"}}>IDARG</h1>
                             </NavItem>
                             <NavItem className="sidenav-item">
                                 <NavLink
-                                    href="#"
+                                    hre f="#"
                                     onClick={() => handleNavItemClick('profile')}
                                     className={active === 'profile' ? 'active' : ''}
                                 >

@@ -70,10 +70,10 @@ const RoleSelection = () => {
       console.log("here");
       navigate("/student/dashboard");
     }
-    else if(user?.role[0]?.roleName === "MODERATOR"){
+    else if (user?.role[0]?.roleName === "MODERATOR") {
       navigate("/moderator/dashboard");
     }
-    else{
+    else {
       navigate("/admin/dashboard");
     }
   }
@@ -105,10 +105,10 @@ const RoleSelection = () => {
                 if (data.user?.role[0]?.roleName === "STUDENT") {
                   navigate("/student/dashboard");
                 }
-                else if(data.user?.role[0]?.roleName === "MODERATOR"){
+                else if (data.user?.role[0]?.roleName === "MODERATOR") {
                   navigate("/moderator/dashboard");
                 }
-                else{
+                else {
                   navigate("/admin/dashboard");
                 }
               });
@@ -127,7 +127,8 @@ const RoleSelection = () => {
               }
             });
         }
-        else{
+        else {
+          console.log(loginDetail);
           toast.error("Role not allowed !!");
         }
       })

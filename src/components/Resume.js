@@ -106,7 +106,7 @@ export const ResumeCard = () => {
           <CardBody>
             <h1 style={{
               color: "#7a92eb",
-            }}>My Resume</h1>
+            }}>My Information</h1>
             {/* <Card>
               <CardBody> */}
                 {hasResume ? (
