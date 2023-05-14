@@ -2,6 +2,7 @@ import React, { useState,useEffect } from 'react';
 import { Button, Form, FormGroup, Label, Input, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { getAllJobOpenings } from '../services/job-opening-service';
 import { batchUpdateApplications } from '../services/job-application-service';
+import {toast} from 'react-toastify'
 
 export const ModeratorBatchUpdateStatus = () => {
   const [file, setFile] = useState(null);
@@ -63,6 +64,7 @@ export const ModeratorBatchUpdateStatus = () => {
       try {
         const response = await batchUpdateApplications(formData,selectedJob,selectedPreviousStatus.value,selectedUpdatedStatus.value);
         console.log(response);
+        toast.success("Updated Successfully");
 
     //     if (response.ok) {
     //       console.log('Excel file uploaded successfully');

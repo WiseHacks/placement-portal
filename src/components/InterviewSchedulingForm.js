@@ -124,6 +124,13 @@ const InterviewPlanner = () => {
         } else if (time.includes('AM') && hour === '12') {
           newHour = '00';
         }
+        let arr = ['0','1','2','3','4','5','6','7','8','9'];
+        for(let i=0;i<arr.length;i++){
+            if(newHour === arr[i]){
+                newHour = '0'+newHour;
+                break;
+            }
+        }
         const newTime = newHour + ':' + minute + ':00.000';
         const isoDateTime = `${year}-${month}-${day}T${newTime}`;
         return isoDateTime;
