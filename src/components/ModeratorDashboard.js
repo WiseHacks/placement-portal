@@ -96,7 +96,7 @@ const ModeratorDashboard = () => {
                                     className="mr-2"
                                     style={{ width: "200px", marginTop: "1rem", marginBottom: "3rem" }}
                                 /> */}
-                                <h1 style={{"color": "black"}}>IDARG</h1>
+                                <h1 style={{ "color": "black" }}>IDARG</h1>
                             </NavItem>
                             <NavItem className="sidenav-item">
                                 <NavLink
@@ -104,19 +104,8 @@ const ModeratorDashboard = () => {
                                     onClick={() => handleNavItemClick('profile')}
                                     className={active === 'profile' ? 'active' : ''}
                                 >
-                                    <i className="far fa-user-circle fa-lg mr-3"></i>
+                                    <i className="far fa-user-circle fa-lg mr-3" style={{ marginRight: "1rem", marginBottom: "1rem" }} ></i>
                                     Profile
-                                </NavLink>
-                                
-                            </NavItem>
-                            <NavItem className="sidenav-item">
-                                <NavLink
-                                    href="#"
-                                    onClick={() => handleNavItemClick('company')}
-                                    className={active === 'company' ? 'active' : ''}
-                                >
-                                    <i className="far fa-user-circle fa-lg mr-3"></i>
-                                    Company
                                 </NavLink>
                             </NavItem>
                             <NavItem className="sidenav-item">
@@ -125,10 +114,22 @@ const ModeratorDashboard = () => {
                                     onClick={() => handleNavItemClick('jobopenings')}
                                     className={active === 'jobopenings' ? 'active' : ''}
                                 >
-                                    <i className="far fa-user-circle fa-lg mr-3"></i>
+                                    <i className="far fa-user-circle fa-lg mr-3" style={{ marginRight: "1rem", marginBottom: "1rem" }}></i>
                                     Post Job opening
                                 </NavLink>
                             </NavItem>
+                            
+                            <NavItem className="sidenav-item">
+                                <NavLink
+                                    href="#"
+                                    onClick={() => handleNavItemClick('company')}
+                                    className={active === 'company' ? 'active' : ''}
+                                >
+                                    <i className="far fa-user-circle fa-lg mr-3" style={{ marginRight: "1rem", marginBottom: "1rem" }}></i>
+                                    Company
+                                </NavLink>
+                            </NavItem>
+                            
 
                             <NavItem className="sidenav-item">
                                 <NavLink
@@ -136,7 +137,7 @@ const ModeratorDashboard = () => {
                                     onClick={() => handleNavItemClick('viewjobopenings')}
                                     className={active === 'viewjobopenings' ? 'active' : ''}
                                 >
-                                    <i className="far fa-file-alt fa-lg mr-3"></i>
+                                    <i className="far fa-file-alt fa-lg mr-3" style={{ marginRight: "1rem", marginBottom: "1rem" }}></i>
                                     View Job Openings
                                 </NavLink>
                             </NavItem>
@@ -146,7 +147,7 @@ const ModeratorDashboard = () => {
                                     onClick={() => handleNavItemClick('editjobopenings')}
                                     className={active === 'editjobopenings' ? 'active' : ''}
                                 >
-                                    <i className="far fa-user-circle fa-lg mr-3"></i>
+                                    <i className="far fa-user-circle fa-lg mr-3" style={{ marginRight: "1rem", marginBottom: "1rem" }}></i>
                                     Edit Job Opening
                                 </NavLink>
                             </NavItem>
@@ -156,7 +157,7 @@ const ModeratorDashboard = () => {
                                     onClick={() => handleNavItemClick('viewapplications')}
                                     className={active === 'viewapplications' ? 'active' : ''}
                                 >
-                                    <i className="far fa-user-circle fa-lg mr-3"></i>
+                                    <i className="far fa-user-circle fa-lg mr-3" style={{ marginRight: "1rem", marginBottom: "1rem" }}></i>
                                     View Applications
                                 </NavLink>
                             </NavItem>
@@ -166,7 +167,7 @@ const ModeratorDashboard = () => {
                                     onClick={() => handleNavItemClick('statuschange')}
                                     className={active === 'statuschange' ? 'active' : ''}
                                 >
-                                    <i className="fas fa-cog fa-lg mr-3"></i>
+                                    <i className="fas fa-cog fa-lg mr-3" style={{ marginRight: "1rem", marginBottom: "1rem" }}></i>
                                     Batch Update Application Status
                                 </NavLink>
                             </NavItem>
@@ -176,7 +177,7 @@ const ModeratorDashboard = () => {
                                     onClick={() => handleNavItemClick('sendemail')}
                                     className={active === 'sendemail' ? 'active' : ''}
                                 >
-                                    <i className="far fa-user-circle fa-lg mr-3"></i>
+                                    <i className="far fa-user-circle fa-lg mr-3" style={{ marginRight: "1rem", marginBottom: "1rem" }}></i>
                                     Send Email
                                 </NavLink>
                             </NavItem>
@@ -186,7 +187,7 @@ const ModeratorDashboard = () => {
                                     onClick={() => handleNavItemClick('scheduleinterviews')}
                                     className={active === 'scheduleinterviews' ? 'active' : ''}
                                 >
-                                    <i className="far fa-user-circle fa-lg mr-3"></i>
+                                    <i className="far fa-user-circle fa-lg mr-3" style={{ marginRight: "1rem", marginBottom: "1rem" }}></i>
                                     Schedule Interviews
                                 </NavLink>
                             </NavItem>
@@ -206,13 +207,13 @@ const ModeratorDashboard = () => {
                                     onClick={() => handleNavItemClick('placementstats')}
                                     className={active === 'placementstats' ? 'active' : ''}
                                 >
-                                    <i className="fas fa-cog fa-lg mr-3"></i>
+                                    <i className="fas fa-cog fa-lg mr-3" style={{ marginRight: "1rem", marginBottom: "1rem" }}></i>
                                     Placement Statistics
                                 </NavLink>
                             </NavItem>
                             <NavItem className="sidenav-item mt-auto">
                                 <NavLink href="#" onClick={signOut}>
-                                    <i className="fas fa-sign-out-alt fa-lg mr-3"></i>
+                                    <i className="fas fa-sign-out-alt fa-lg mr-3" style={{ marginRight: "1rem", marginBottom: "1rem" }}></i>
                                     Sign out
                                 </NavLink>
                             </NavItem>
