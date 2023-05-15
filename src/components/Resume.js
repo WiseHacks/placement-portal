@@ -15,15 +15,15 @@ export const ResumeCard = () => {
   const [resume, setResume] = useState(undefined);
 
   useEffect(() => {
-    getUser()
-      .then((userDto) => {
-        console.log(userDto);
-        setHasResume(userDto.resume != null);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    fetchUserResume();
+    // getUser()
+    //   .then((userDto) => {
+    //     console.log(userDto);
+    //     setHasResume(userDto.resume != null);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
+    // fetchUserResume();
   }, [hasResume]);
   const changeHasResumeOnCreate = (resumeExists) => {
     setHasResume(resumeExists);

@@ -1,134 +1,15 @@
-// import React, { useState, useEffect } from 'react';
-// import { Table, Card, CardBody, Container } from 'reactstrap';
-// import { getAllPlacementStatus } from '../services/placement-status-service';
-// // import './styles/placementstats.css'
-
-// export const StudentPlacementTable = () => {
-//   const [students, setStudents] = useState([]);
-
-//   useEffect(() => {
-//     // Fetch student placement data from backend
-//     // Assume data is returned in the following format:
-//     // [
-//     //   { email: string, isPlaced: boolean, company: string, jobProfile: string },
-//     //   ...
-//     // ]
-//     const fetchData = async () => {
-//       const response = await getAllPlacementStatus();
-//       setStudents(response);
-//     };
-//     fetchData();
-//   }, []);
-
-//   return (
-//     <div>
-//       <Container className="d-flex justify-content-center align-items-center card-container">
-//         <Card className="card p-4 shadow" style={{
-//           overflow: "auto",
-//           width: "75vw",
-//           height: "95vh",
-//           borderRadius: "2rem",
-//           boxShadow: "0 0 10px 0 rgba(1, 0, 0, 1);",
-//         }}>
-//           <CardBody>
-//             <h1 style={{
-//               color: "#7a92eb",
-//             }}>Placement stats of your college</h1>
-//             <div>
-//               <div className="table-responsive">
-//                 <Table responsive striped hover className="table-fixed">
-//                   <thead>
-//                     <tr>
-//                       <th>Name</th>
-//                       <th>Roll No</th>
-//                       <th>Email</th>
-//                       <th>Placed</th>
-//                       <th>Company</th>
-//                       <th>Job Profile</th>
-//                     </tr>
-//                   </thead>
-//                   <tbody>
-//                     {students.map((student) => (
-//                       <tr key={student.email}>
-//                         <td>{student?.placedJobApplication?.user?.name != null ? student?.placedJobApplication?.user?.name : "N/A"}</td>
-//                         <td>{student?.placedJobApplication?.user?.rollNo != null ? student?.placedJobApplication?.user?.rollNo  : "N/A"}</td>
-//                         <td>{student.email}</td>
-//                         <td>{student.isPlaced ? 'Yes' : 'No'}</td>
-//                         <td>{student.isPlaced ? student.placedJobApplication.jobOpening.company.companyName : 'N/A'}</td>
-//                         <td>{student.isPlaced ? student.placedJobApplication.jobOpening.jobProfile : 'N/A'}</td>
-//                       </tr>
-//                     ))}
-//                   </tbody>
-//                 </Table>
-//               </div>
-
-//             </div>
-//           </CardBody>
-//         </Card>
-//       </Container>
-//     </div>
-
-//   );
-// };
-
-// import React from 'react';
-// import { Bar } from 'react-chartjs-2';
-// import { Container } from 'reactstrap';
-// import { Chart as ChartJS } from 'chart.js/auto'
-// import { Chart }            from 'react-chartjs-2'
-
-// const data = {
-//   labels: ['Company A', 'Company B', 'Company C', 'Company D', 'Company E'],
-//   datasets: [
-//     {
-//       label: 'Number of students placed',
-//       backgroundColor: 'rgba(75,192,192,1)',
-//       borderColor: 'rgba(0,0,0,1)',
-//       borderWidth: 1,
-//       data: [15, 10, 8, 5, 2],
-//     },
-//   ],
-// };
-
-// const options = {
-//   scales: {
-//     yAxes: [
-//       {
-//         ticks: {
-//           beginAtZero: true,
-//         },
-//       },
-//     ],
-//     xAxes: [
-//       {
-//         ticks: {
-//           beginAtZero: true,
-//         },
-//         type: 'category',
-//       },
-//     ],
-//   },
-// };
-
-// export const StudentPlacementTable = () => {
-//   return (
-//     <Container>
-//       <h1>Placements Graph</h1>
-//       <Bar data={data} options={options} />
-//     </Container>
-//   );
-// };
-
 import React, { useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
-import { Container,Table, Card, CardBody } from 'reactstrap';
+import { FormGroup, Label, Input, Button, Container, Table, Card, CardBody } from 'reactstrap';
 import { Chart as ChartJS } from 'chart.js/auto'
-import { Chart }            from 'react-chartjs-2'
+import { Chart } from 'react-chartjs-2'
 import { getCompanyStats } from '../services/company-service';
 import { getAllPlacementStatus } from '../services/placement-status-service';
+import { getAllJobOpenings, deleteJobOpening, searchJobOpening } from '../services/job-opening-service';
+
 
 export const StudentPlacementTable = () => {
-  
+
   const [data, setData] = useState(null);
   const [students, setStudents] = useState([]);
 
@@ -158,7 +39,7 @@ export const StudentPlacementTable = () => {
         {
           ticks: {
             beginAtZero: true,
-            stepSize:1,
+            stepSize: 1,
           },
         },
       ],
@@ -173,101 +54,84 @@ export const StudentPlacementTable = () => {
     },
   };
 
+  const [domain, setDomain] = useState('');
+  const [response, setResponse] = useState([]);
+
+  const handleDropdownChange = (event) => {
+    setDomain(event.target.value);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const query = domain
+    console.log(domain)
+
+    searchJobOpening(domain).then((allJobOpeningDto) => {
+      console.log("query result is ", allJobOpeningDto)
+      // console.log()
+      const njo = []
+      allJobOpeningDto.foreach((jobOpeningDto) => {
+        njo.push({ 
+          jobId: jobOpeningDto?.id,
+          jobDescription: jobOpeningDto?.jobDescription,
+          postedBy: jobOpeningDto?.user?.email,
+          cgpaCutoff: jobOpeningDto?.cgpaCutoff,
+          companyName: jobOpeningDto?.company?.companyName,
+        })
+      })
+      console.log(njo)
+      setResponse(njo)
+    })
+  };
+
+
   return (
     <>
-    <Container>
-      <h1 style={{
-        color:"#7a92eb"
-      }}>Placements Graph</h1>
-      {data ? (
-        <Bar
-          data={{
-            labels: data.map((item) => item.companyName),
-            datasets: [
-              {
-                label: 'Number of students placed',
-                backgroundColor: '#7a92eb',
-                borderColor: 'rgba(0,0,0,1)',
-                borderWidth: 1,
-                data: data.map((item) => item.count),
-              },
-            ],
-          }}
-          options={options}
-        />
-      ) : (
-        <p>Loading data...</p>
-      )}
-    </Container>
-    
-    <div>
-      <Container className="d-flex justify-content-center align-items-center card-container">
-        <Card className="card p-4 shadow" style={{
-          overflow: "auto",
-          width: "75vw",
-          height: "95vh",
-          borderRadius: "2rem",
-          boxShadow: "0 0 10px 0 rgba(1, 0, 0, 1);",
-          marginTop:"1rem"
-        }}>
-          <CardBody>
-            <h1 style={{
-              color: "#7a92eb",
-            }}>Tabular view</h1>
-            <div>
-              <div className="table-responsive">
-                <Table responsive striped hover className="table-fixed">
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Roll No</th>
-                      <th>Email</th>
-                      <th>Placed</th>
-                      <th>Company</th>
-                      <th>Job Profile</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {students.map((student) => (
-                      <tr key={student.email}>
-                        <td>{student?.placedJobApplication?.user?.name != null ? student?.placedJobApplication?.user?.name : "N/A"}</td>
-                        <td>{student?.placedJobApplication?.user?.rollNo != null ? student?.placedJobApplication?.user?.rollNo  : "N/A"}</td>
-                        <td>{student.email}</td>
-                        <td>{student.isPlaced ? 'Yes' : 'No'}</td>
-                        <td>{student.isPlaced ? student.placedJobApplication.jobOpening.company.companyName : 'N/A'}</td>
-                        <td>{student.isPlaced ? student.placedJobApplication.jobOpening.jobProfile : 'N/A'}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </Table>
-              </div>
+      <div>
+        <Container className="d-flex justify-content-center align-items-center card-container">
+          <Card className="card p-4 shadow" style={{
+            overflow: "auto",
+            width: "75vw",
+            height: "95vh",
+            borderRadius: "2rem",
+            boxShadow: "0 0 10px 0 rgba(1, 0, 0, 1);",
+            marginTop: "1rem"
+          }}>
+            <CardBody>
+              <div>
+                <form onSubmit={handleSubmit}>
+                  <div>
+                    <label>
+                      Domain:
+                      <select name="domain" value={domain} onChange={handleDropdownChange}>
+                        <option value="">Select Domain</option>
+                        <option value="sde">sde</option>
+                        <option value="Doctor">Doctor</option>
+                        <option value="CA">CA</option>
+                      </select>
+                    </label>
+                  </div>
+                  <button type="submit">Search Query</button>
+                </form>
 
-            </div>
-          </CardBody>
-        </Card>
-      </Container>
-    </div>
+                <div>
+                  <h3>Response:</h3>
+                  <ul>
+                    {response.map((jobOpening) => (
+                      <li key={jobOpening.jobId}>{jobOpening.jobDescription}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </CardBody>
+          </Card>
+        </Container>
+      </div>
     </>
   );
 };
 
-// const [students, setStudents] = useState([]);
 
-// useEffect(() => {
-//   // Fetch student placement data from backend
-//   // Assume data is returned in the following format:
-//   // [
-//   //   { email: string, isPlaced: boolean, company: string, jobProfile: string },
-//   //   ...
-//   // ]
-//   const fetchData = async () => {
-//     const response = await getAllPlacementStatus();
-//     setStudents(response);
-//   };
-//   fetchData();
-// }, []);
-
-// return (
 
 
 

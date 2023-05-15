@@ -66,7 +66,7 @@ const StudentLogin = () => {
       };
     
       if (isLoggedIn()) {
-        toast.success("Already logged in !!", {
+        toast.success("logged in successfully !!", {
           toastId: "alreadyLoggedIn"
         });
         if (user?.role[0]?.roleName === "STUDENT") {
@@ -97,6 +97,7 @@ const StudentLogin = () => {
     
         getUserByEmail(loginDetail.email)
           .then((UserDto) => {
+            console.log(UserDto.role[0].roleName);
             if (UserDto?.role[0]?.roleName === loginDetail.role.toUpperCase()) {
               //send to server
               logIn(loginDetail)

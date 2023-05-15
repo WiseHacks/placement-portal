@@ -52,7 +52,7 @@ const LandingPage = () => {
                             <a href="/uploadresume" class="btn">Upload your resume</a>
                         </div>
                         {/* <div class="pass"><a href="#">go to dashboard</a></div> */}
-                        <div class="pass"><a href="/morbhaisite">Mor Bhai Site</a></div>
+                        {/* <div class="pass"><a href="/morbhaisite">Mor Bhai Site</a></div> */}
                     </div>
 
                     <div class="right">

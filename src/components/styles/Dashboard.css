@@ -16,13 +16,14 @@
     bottom: 0;
     left: 0;
     z-index: 1;
-    background-color: #d7e0ff;
+    background-color: #192e3a;
+    /* background-color: #d7e0ff; */
     color: white;
     overflow-y: auto;
 }
 
 .sidenav-item a {
-    color: black;
+    color: white;
     margin-bottom: 16px;
 }
 
