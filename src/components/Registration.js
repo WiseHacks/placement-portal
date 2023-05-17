@@ -49,7 +49,7 @@ const Signup = () => {
       email: "",
       password: "",
       role: "",
-      inviteKey:""
+      inviteKey: ""
     });
   };
 
@@ -62,43 +62,43 @@ const Signup = () => {
       return;
     }
 
-    getAllInviteKeys().then((allKeys)=>{
+    getAllInviteKeys().then((allKeys) => {
       let isKeyValid = false;
       console.log(allKeys);
-      for(let key in allKeys){
-        console.log(allKeys[key],data.inviteKey);
-        if(allKeys[key]?.inviteKey == data.inviteKey){
+      for (let key in allKeys) {
+        console.log(allKeys[key], data.inviteKey);
+        if (allKeys[key]?.inviteKey == data.inviteKey) {
           isKeyValid = true;
           break;
         }
       }
-      if(isKeyValid){
-          //call server api for sending data
-    signUp(data)
-    .then((resp) => {
-      console.log(resp);
-      console.log("success log");
-      toast.success("User is registered successfully!!");
-      resetData();
-      navigate("/");
-    })
-    .catch((error) => {
-      console.log(error);
+      if (isKeyValid) {
+        //call server api for sending data
+        signUp(data)
+          .then((resp) => {
+            console.log(resp);
+            console.log("success log");
+            toast.success("User is registered successfully!!");
+            resetData();
+            navigate("/studentlogin");
+          })
+          .catch((error) => {
+            console.log(error);
 
-      setError({
-        errors: error,
-        isError: true,
-      });
-    });
+            setError({
+              errors: error,
+              isError: true,
+            });
+          });
       }
-      else{
+      else {
         toast.error("Invalid invite key !!")
       }
-    }).catch((error)=>{
+    }).catch((error) => {
       console.log(error);
     })
 
-    
+
   };
 
   return (
@@ -120,91 +120,91 @@ const Signup = () => {
               src={require("./logo/logo_new.png")}
               alt="Logo"
               className="mr-2"
-              style={{ width: "400px" , marginTop:"15rem"}}
+              style={{ width: "400px", marginTop: "15rem" }}
             />
           </div>
           <Form className="form-container">
-                    {/*email field */}
-                    <FormGroup>
-                      <Label for="email">Email</Label>
-                      <Input style= {{ paddingLeft: "20px"}}
-                        type="email"
-                        placeholder="Enter email"
-                        id="email"
-                        onChange={(e) => handleChange(e, "email")}
-                        value={data.email}
-                        invalid={
-                          error.errors?.response?.data?.email ? true : false
-                        }
-                      ></Input>
-                      <FormFeedback>
-                        {error.errors?.response?.data?.email}
-                      </FormFeedback>
-                    </FormGroup>
+            {/*email field */}
+            <FormGroup>
+              <Label for="email">Email</Label>
+              <Input style={{ paddingLeft: "20px" }}
+                type="email"
+                placeholder="Enter email"
+                id="email"
+                onChange={(e) => handleChange(e, "email")}
+                value={data.email}
+                invalid={
+                  error.errors?.response?.data?.email ? true : false
+                }
+              ></Input>
+              <FormFeedback>
+                {error.errors?.response?.data?.email}
+              </FormFeedback>
+            </FormGroup>
 
-                    {/*password field */}
-                    <FormGroup>
-                      <Label for="password">Password</Label>
-                      <Input
-                        style= {{ paddingLeft: "20px"}} 
-                        type="password"
-                        placeholder="Password"
-                        id="password"
-                        onChange={(e) => handleChange(e, "password")}
-                        invalid={
-                          error.errors?.response?.data?.password ? true : false
-                        }
-                        value={data.password}
-                      ></Input>
+            {/*password field */}
+            <FormGroup>
+              <Label for="password">Password</Label>
+              <Input
+                style={{ paddingLeft: "20px" }}
+                type="password"
+                placeholder="Password"
+                id="password"
+                onChange={(e) => handleChange(e, "password")}
+                invalid={
+                  error.errors?.response?.data?.password ? true : false
+                }
+                value={data.password}
+              ></Input>
 
-                      <FormFeedback>
-                        {error.errors?.response?.data?.password}
-                      </FormFeedback>
-                    </FormGroup>
+              <FormFeedback>
+                {error.errors?.response?.data?.password}
+              </FormFeedback>
+            </FormGroup>
 
-                    {/*role field */}
-                    <FormGroup>
-                      <Label for="roleSelect">Register As</Label>
-                      <Input
-                        style= {{ paddingLeft: "20px"}} 
-                        id="roleSelect"
-                        name="select"
-                        type="select"
-                        onChange={(e) => handleChange(e, "role")}
-                        value={data.role}
-                      >
-                        <option value="">--Select role--</option>
-                        <option>Admin</option>
-                        {/* <option>Moderator</option> */}
-                        <option>Student</option>
-                      </Input>
-                    </FormGroup>
+            {/*role field */}
+            <FormGroup>
+              <Label for="roleSelect">Register As</Label>
+              <Input
+                style={{ paddingLeft: "20px" }}
+                id="roleSelect"
+                name="select"
+                type="select"
+                onChange={(e) => handleChange(e, "role")}
+                value={data.role}
+              >
+                <option value="">--Select role--</option>
+                <option>Admin</option>
+                {/* <option>Moderator</option> */}
+                <option>Student</option>
+              </Input>
+            </FormGroup>
 
-                    <FormGroup>
-                      <Label for="inviteKey">Invite Key</Label>
-                      <Input
-                        style= {{ paddingLeft: "20px"}} 
-                        type="text"
-                        placeholder="Invite Key"
-                        id="inviteKey"
-                        onChange={(e) => handleChange(e, "inviteKey")}
-                        value={data.inviteKey}
-                      ></Input>
-                      </FormGroup>
+            <FormGroup>
+              <Label for="inviteKey">Invite Key</Label>
+              <Input
+                style={{ paddingLeft: "20px" }}
+                type="text"
+                placeholder="Invite Key"
+                id="inviteKey"
+                onChange={(e) => handleChange(e, "inviteKey")}
+                value={data.inviteKey}
+              ></Input>
+            </FormGroup>
 
-                    <Container className="text-center">
-                      <Button onClick={handleSubmit} className="btn btn-lg">
-                        Register
-                      </Button>
-                    </Container>
-                  </Form>
-                  <div style={{
-                    height:"100px"
-                  }}>
-                  &nbsp;
-                  </div>
+            <Container className="text-center">
+              <Button onClick={handleSubmit} className="btn btn-lg">
+                Register
+              </Button>
+            </Container>
+          </Form>
+          <div style={{
+            height: "100px"
+          }}>
+            &nbsp;
+          </div>
         </div>
-                  
+
       </div>
     </div>
   );

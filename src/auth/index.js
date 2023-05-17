@@ -7,6 +7,7 @@ export const isLoggedIn=()=>{
 
 //doLogin
 export const doLogin=(data,next)=>{
+    console.log(data)
     localStorage.setItem("data",JSON.stringify(data));
     next();
 }
@@ -24,7 +25,6 @@ export const getCurrentUserDetail=()=>{
         let usr =  JSON.parse(localStorage.getItem("data"))?.user;
         console.log(usr);
         return usr;
-        
     }
     else return undefined;
 }
@@ -34,4 +34,14 @@ export const getToken=()=>{
         return JSON.parse(localStorage.getItem("data"))?.jwtToken;
     }
     else return null;
+}
+
+export const getResume=()=>{
+    console.log("function getResume invoked")
+    if(isLoggedIn()){
+        let resumePdf =  JSON.parse(localStorage.getItem("data"))?.resume;
+        console.log(resumePdf);
+        return resumePdf;
+    }
+    else return undefined;
 }
