@@ -25,6 +25,8 @@ const StudentDashboard = () => {
     const [interviews, setInterviews] = useState(null);
     const navigate = useNavigate();
 
+    const user_Email = "harshmeena908@gmail.com";
+
     // const base64Pdf = 'your-base64-pdf-string';
     // const pdfSrc = `data:application/pdf;base64,${base64Pdf}`;
     // const pdfSrc = data:application/pdf;base64,`;
@@ -50,7 +52,7 @@ const StudentDashboard = () => {
         setLogin(isLoggedIn());
         setUser(getCurrentUserDetail());
         const fetchUserDetails = async () => {
-            const response = await getUserByEmail(getCurrentUserDetail()?.email);
+            const response = "harshmeena908@gmail.com";
             console.log(response);
             setUser(response);
         }
@@ -301,7 +303,7 @@ const StudentDashboard = () => {
                     // </div>
                 )}
                 {active === 'placementstatus' && (
-                    <StudentPlacementStatus userEmail={user.email} />
+                    <StudentPlacementStatus userEmail = {user_Email} />
                 )}
                 {active === 'placementstats' && (
                     <StudentPlacementTable />

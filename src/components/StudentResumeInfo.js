@@ -290,7 +290,7 @@ const StudentResumeInfo = () => {
                                                 width: '20%', // please check here for margin
                                             }}>
                                                 {/* <!-- <label for="name">One</label> --> */}
-                                                <input type="name" name="name" value={data?.skills} onChange={(e) => handleChange(e, "skills")} />
+                                                <input type="name" name="name" value="Web Development" onChange={(e) => handleChange(e, "skills")} />
                                             </div>
 
                                             <div class="field padding-bottom--24 right" style={{

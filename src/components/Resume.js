@@ -108,43 +108,46 @@ export const ResumeCard = () => {
               color: "#7a92eb",
             }}>My Information</h1>
             {/* <Card>
-              <CardBody> */}
-                {hasResume ? (
-                  !editResumeFormVisible ? (
-                    <>
-                      {" "}
-                      <ShowResume resume={resume} isLoading={isLoading}></ShowResume>
-                      {/* Code to display the existing resume */}
-                      <div className="text-center mt-4 d-flex justify-content-around">
-                        <Button onClick={handleEditResume}>Edit Resume</Button>
-                        <Button onClick={handleDeleteResume}>Delete Resume</Button>
-                      </div>
-                    </>
-                  ) : (
-                    <Card>
-                      <CardBody>
-                        <ResumeUpdateForm
-                          resume={resume}
-                          onUpdate={onResumeUpdate}
-                        ></ResumeUpdateForm>
-                      </CardBody>
-                    </Card>
-                  )
-                ) : (
-                  <>
-                    <CardTitle>You have no saved Resume</CardTitle>
-                    <Button
-                      onClick={handleCreateResume}
-                      disabled={createResumeFormVisible}
-                      className="btn"
-                    >
-                      Create Resume
-                    </Button>
-                    {/* <ResumeForm></ResumeForm> */}
-                  </>
-                )}
-              {/* </CardBody>
-            </Card> */}
+                <CardBody> */}
+            {hasResume ? (
+              !editResumeFormVisible ? (
+                <Card>
+                  <CardBody>
+                    <ResumeUpdateForm
+                      resume={resume}
+                      onUpdate={onResumeUpdate}
+                    ></ResumeUpdateForm>
+                  </CardBody>
+                </Card>
+
+              ) : (
+
+
+                <>
+                  {" "}
+                  <ShowResume></ShowResume>
+                  {/* Code to display the existing resume */}
+                  <div className="text-center mt-4 d-flex justify-content-around">
+                    <Button onClick={handleEditResume}>Edit Resume</Button>
+                    <Button onClick={handleDeleteResume}>Delete Resume</Button>
+                  </div>
+                </>
+              )
+            ) : (
+              <>
+                <CardTitle>You have no saved Resume</CardTitle>
+                <Button
+                  onClick={handleCreateResume}
+                  disabled={createResumeFormVisible}
+                  className="btn"
+                >
+                  Create Resume
+                </Button>
+                {/* <ResumeForm></ResumeForm> */}
+              </>
+            )}
+            {/* </CardBody>
+              </Card> */}
             <div>
               {createResumeFormVisible ? (
                 <Card
